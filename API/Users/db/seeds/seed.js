@@ -7,6 +7,11 @@ exports.seed = async function(knex) {
       username: 'test_user',
       email: 'test@example.com',
       password: await bcrypt.hash('password123', 10)
-    }
+    },
+    {
+      username: 'test_user2',
+      email: 'user1@example.com',
+      password: await bcrypt.hash('password123', 10)
+    },
   ]);
 };
