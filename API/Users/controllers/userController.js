@@ -59,6 +59,25 @@ const userController = {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
+    },
+
+    verifyToken: async (req, res) => {
+        try {
+            const token = req.headers.authorization?.split(' ')[1];
+            
+            if (!token) {
+                return res.status(401).json({ valid: false, message: 'Token manquant' });
+            }
+
+            jwt.verify(token, 'votre_secret_jwt', (err, decoded) => {
+                if (err) {
+                    return res.status(401).json({ valid: false, message: 'Token invalide' });
+                }
+                res.json({ valid: true, userId: decoded.userId });
+            });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 };
 

@@ -1,14 +1,11 @@
 const express = require('express');
-const auth = require('./middleware/auth');
-const userController = require('./controllers/userController');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 app.use(express.json());
 
-// Routes
-app.post('/auth/register', userController.register);
-app.post('/auth/login', userController.login);
-app.get('/auth/profile', auth, userController.getProfile);
+// Configuration des routes
+app.use('/auth', userRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
