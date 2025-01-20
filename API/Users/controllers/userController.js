@@ -5,6 +5,7 @@ const knex = require('knex')(config);
 
 const userController = {
     register: async (req, res) => {
+        console.log('register');
         try {
             const { username, email, password } = req.body;
             const hashedPassword = await bcrypt.hash(password, 10);
@@ -24,6 +25,7 @@ const userController = {
     },
 
     login: async (req, res) => {
+        console.log('login');
         try {
             const { email, password } = req.body;
             const user = await knex('users').where({ email }).first();
