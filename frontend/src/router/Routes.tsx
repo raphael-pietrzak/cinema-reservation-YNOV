@@ -9,6 +9,8 @@ import Dashboard from "../pages/backoffice/Dashboard.tsx";
 import ManageMovie from "../pages/backoffice/ManageMovie.tsx";
 import ManageSession from "../pages/backoffice/ManageSession.tsx";
 import ManageUser from "../pages/backoffice/ManageUser.tsx";
+import SeatSelector from '../components/SeatSelector';
+import MovieDetailsPage from '../pages/MovieDetailsPage';
 
 export const routes: RouteObject[] = [
     {
@@ -43,18 +45,28 @@ export const routes: RouteObject[] = [
                 path: '/backoffice',
                 element: <Dashboard />,
             },
-            // {
-            //     path: '/backoffice/manage-movie',
-            //     element: <ManageMovie/>,
-            // },
-            // {
-            //     path: '/backoffice/manage-session',
-            //     element: <ManageSession/>,
-            // },
-            // {
-            //     path: '/backoffice/manage-user',
-            //     element: <ManageUser/>,
-            // }
+            {
+                path: '/backoffice/manage-movie',
+                element: <ManageMovie/>,
+            },
+            {
+                path: '/backoffice/manage-session',
+                element: <ManageSession/>,
+            },
+            {
+                path: '/backoffice/manage-user',
+                element: <ManageUser/>,
+            },
+            {
+                path: '/seat-selector',
+                element: <SeatSelector />
+            },
+            {
+                path: '/movie-detail',
+                element: <MovieDetailsPage />
+            },
+            
+
 
         ]
     }
