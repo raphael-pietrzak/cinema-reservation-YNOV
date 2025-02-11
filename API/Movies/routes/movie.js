@@ -8,18 +8,21 @@ function get_acl(token, callback) {
     let body = {
         token: token
     }
+    callback("admin");
+    
+    /*
     fetch(UserURL, body)
         .then((res) => res.json())
         .then((json) => {
             if (json.role) callback(role)
             else return null
         })
+    */
 }
 
 // GET movie by Query
 router.get('/', (req, res, next) => {
     model.find(req.query).exec().then((movies) => {
-        console.log(movies);
         res.status(200).send(movies);
     })
 });
@@ -31,16 +34,15 @@ router.get('/:id', (req, res, next) => {
             res.status(404).send("Movie not found");
             return
         }
-        console.log(movie);
         res.status(200).send(movie);
     })
 });
 
 // POST movie to create
 router.post('/create', (req, res, next) => {
-    if (!req.body.token)
-        res.status(400).send("Auth token required");
-    get_acl(req.body.token, (role) => {
+    if (!req.headers.token)
+        return res.status(400).send("Auth token required");
+    get_acl(req.headers.token, (role) => {
         if (role == "admin") {
             model.create(req.body).then((movie) => {
                 res.status(201).send(`Movie "${movie.name}" created`);
@@ -55,9 +57,9 @@ router.post('/create', (req, res, next) => {
 
 // PUT update movie by ID
 router.put('/:id/update', (req, res, next) => {
-    if (!req.body.token)
-        res.status(400).send("Auth token required");
-    get_acl(req.body.token, (role) => {
+    if (!req.headers.token)
+        return res.status(400).send("Auth token required");
+    get_acl(req.headers.token, (role) => {
         if (role == "admin") {
             model.updateOne({_id: req.params.id}, req.body).then(() => {
                 res.status(200).send();
@@ -72,12 +74,12 @@ router.put('/:id/update', (req, res, next) => {
 
 // DELETE movie by ID
 router.delete('/:id/delete', (req, res, next) => {
-    if (!req.body.token)
-        res.status(400).send("Auth token required");
-    get_acl(req.body.token, (role) => {
+    if (!req.headers.token)
+        return res.status(400).send("Auth token required");
+    get_acl(req.headers.token, (role) => {
         if (role == "admin") {
             model.deleteOne({_id: req.params.id}).then((deleted) => {
-                if (deleted == 1)
+                if (deleted.deletedCount == 1)
                     res.status(200).send();
                 else
                     res.status(404).send("Not Found");

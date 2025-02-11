@@ -1,0 +1,86 @@
+Index: app/login/page.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\r\n\r\n\r\n// app/login/page.jsx\r\nimport Login from '../../pages/Login';\r\nimport React from \"react\";\r\n\r\nexport default function LoginPage() {\r\n    return <Login />;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/login/page.jsx b/app/login/page.jsx
+--- a/app/login/page.jsx	(revision 471200d35ea2f6922d560e3f80fbf24ae53e353e)
++++ b/app/login/page.jsx	(date 1737372058649)
+@@ -1,10 +1,70 @@
+ "use client";
+ 
+-
+-// app/login/page.jsx
+-import Login from '../../pages/Login';
+-import React from "react";
++import React, { useState } from "react";
++import { useRouter } from "next/navigation";
+ 
+ export default function LoginPage() {
+-    return <Login />;
++    const [email, setEmail] = useState("");
++    const [password, setPassword] = useState("");
++    const [error, setError] = useState(null);
++    const router = useRouter(); // Pour gérer la redirection
++
++    const handleLogin = async (e) => {
++        e.preventDefault();
++        setError(null);
++
++        // Simuler une vérification des identifiants
++        if (email === "admin@example.com" && password === "password") {
++            // Enregistrer un "authToken" fictif dans localStorage
++            const token = btoa(JSON.stringify({ email, role: "admin" }));
++            localStorage.setItem("authToken", token);
++
++            // Rediriger l'utilisateur vers la page d'accueil
++            router.push("/");
++        } else {
++            setError("Email ou mot de passe incorrect.");
++        }
++    };
++
++    return (
++        <div className="container mx-auto max-w-md py-10">
++            <h1 className="text-3xl font-bold mb-6 text-center">Connexion</h1>
++            <form
++                onSubmit={handleLogin}
++                className="bg-white p-6 rounded-lg shadow-md space-y-4"
++            >
++                {error && (
++                    <div className="text-red-500 text-sm bg-red-100 p-2 rounded">
++                        {error}
++                    </div>
++                )}
++                <div>
++                    <label className="block text-gray-700">Email</label>
++                    <input
++                        type="email"
++                        value={email}
++                        onChange={(e) => setEmail(e.target.value)}
++                        className="w-full p-2 border border-gray-300 rounded mt-1"
++                        required
++                    />
++                </div>
++                <div>
++                    <label className="block text-gray-700">Mot de passe</label>
++                    <input
++                        type="password"
++                        value={password}
++                        onChange={(e) => setPassword(e.target.value)}
++                        className="w-full p-2 border border-gray-300 rounded mt-1"
++                        required
++                    />
++                </div>
++                <button
++                    type="submit"
++                    className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
++                >
++                    Connexion
++                </button>
++            </form>
++        </div>
++    );
+ }
