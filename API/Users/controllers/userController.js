@@ -5,8 +5,22 @@ const knex = require('knex')(config);
 
 const userController = {
     register: async (req, res) => {
+        console.log('register');
         try {
             const { username, email, password } = req.body;
+
+            // Vérifier si l'email existe déjà
+            const existingUser = await knex('users').where({ email }).first();
+            if (existingUser) {
+                return res.status(400).json({ error: 'Cet email est déjà utilisé' });
+            }
+
+            // Vérifier si le nom d'utilisateur existe déjà
+            const existingUsername = await knex('users').where({ username }).first();
+            if (existingUsername) {
+                return res.status(400).json({ error: 'Ce nom d\'utilisateur est déjà pris' });
+            }
+
             const hashedPassword = await bcrypt.hash(password, 10);
             
             const [user] = await knex('users')
@@ -24,12 +38,18 @@ const userController = {
     },
 
     login: async (req, res) => {
+        console.log('login');
         try {
             const { email, password } = req.body;
             const user = await knex('users').where({ email }).first();
 
-            if (!user || !await bcrypt.compare(password, user.password)) {
-                return res.status(401).json({ error: 'Identifiants invalides' });
+            if (!user) {
+                return res.status(401).json({ error: 'Aucun compte n\'existe avec cet email' });
+            }
+
+            const validPassword = await bcrypt.compare(password, user.password);
+            if (!validPassword) {
+                return res.status(401).json({ error: 'Mot de passe incorrect' });
             }
 
             const token = jwt.sign(
@@ -38,7 +58,7 @@ const userController = {
                 { expiresIn: '24h' }
             );
 
-            res.json({ token });
+            res.json({ token, user: { id: user.id, username: user.username, email: user.email } });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

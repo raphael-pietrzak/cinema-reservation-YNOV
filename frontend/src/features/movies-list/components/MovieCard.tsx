@@ -12,26 +12,22 @@ export function MovieCard({ movie }: MovieCardProps) {
       dark:bg-white
       rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-105">
       <div className="h-48 overflow-hidden">
-        <img
-          src={movie.image}
-          alt={movie.title}
+        <img 
+          src={movie.image || "public/placeholder.png"} 
+          alt={movie.name}
           className="w-full h-full object-cover"
         />
       </div>
       <div className="p-6">
-        <h2 className="text-xl font-bold mb-2 dark:text-gray-900">{movie.title}</h2>
-        <div className="flex items-center gap-4 dark:text-gray-600 mb-4">
+        <h2 className="text-xl font-bold text-gray-900 mb-2">{movie.name}</h2>
+        <div className="flex items-center gap-4 text-gray-600 mb-4">
           <span className="flex items-center gap-1">
             <Calendar className="w-4 h-4" />
             {movie.year}
           </span>
           <span className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
-            {movie.duration}
-          </span>
-          <span className="flex items-center gap-1">
-            <Star className="w-4 h-4 text-yellow-500" />
-            {movie.rating}
+            {`${Math.trunc(movie.duration / 60)}h ${movie.duration % 60}min`}
           </span>
         </div>
         <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
