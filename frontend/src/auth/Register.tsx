@@ -21,8 +21,8 @@ const Register: React.FC = () => {
       await axios.post('http://localhost:3000/auth/register', formData)
       setMessage('Inscription réussie !')
       navigate('/login')
-    } catch (error) {
-      setMessage('Erreur lors de l\'inscription')
+    } catch (error: any) {
+      setMessage(error.response?.data?.error || 'Erreur lors de l\'inscription')
       console.error('Erreur lors de l\'inscription:', error)
     }
   }

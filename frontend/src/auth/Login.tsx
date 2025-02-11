@@ -21,8 +21,8 @@ const Login: React.FC = () => {
       localStorage.setItem('token', response.data.token)
       setMessage('Connexion réussie !')
       navigate('/')
-    } catch (error) {
-      setMessage('Erreur lors de la connexion')
+    } catch (error: any) {
+      setMessage(error.response?.data?.error || 'Erreur lors de la connexion')
       console.error('Erreur lors de la connexion:', error)
     }
   }
