@@ -20,10 +20,17 @@ const Navbar = () => {
       <nav className="bg-blue-500 dark:bg-gray-900 shadow-md text-white py-4">
         <div className="container mx-auto flex justify-between items-center px-6">
 
+        <div className="container mx-auto flex items-center px-6">
           {/* Logo */}
           <Link to="/" className="text-2xl font-bold tracking-wide">
             🎬 MovieApp
           </Link>
+
+          {/* Thème */}
+          <button onClick={toggleTheme} className="focus:outline-none">
+            {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
+          </button>
+        </div>
 
           {/* Menu Responsive */}
           <button
@@ -46,13 +53,8 @@ const Navbar = () => {
                 </Link>
             )}
 
-            {/* Toggle Dark Mode */}
-            <button
-                onClick={toggleTheme}
-                className="p-2 rounded-full bg-gray-300 dark:bg-gray-700"
-            >
-              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
+
+            <Link to="/login" className="hover:text-gray-200 transition">Connexion</Link>
 
             <Link to="/login" className="bg-white text-blue-500 px-4 py-2 rounded shadow hover:bg-gray-100 transition">
               Connexion

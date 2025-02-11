@@ -3,6 +3,8 @@ node_modules
 **.sqlite3
 .vscode
 .env
+.idea
+*.pyc
 
 
 
