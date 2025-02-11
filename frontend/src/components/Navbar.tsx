@@ -1,48 +1,17 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Sun, Moon, Menu } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 
 const Navbar = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [role, setRole] = useState(localStorage.getItem("role") || "user"); // 🔹 Récupérer le rôle stocké
-  return (
-    <nav className="bg-blue-500 text-white py-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">
-          <Link to="/">🎥 CinéApp</Link>
-        </h1>
-        <div className="space-x-4">
-          <Link to="/home" className="hover:underline">
-            Accueil
-          </Link>
-          <Link to="/movies" className="hover:underline">
-            Films
-          </Link>
-          <Link to="/about" className="hover:underline">
-            À propos
-          </Link>
-          <Link to="/login" className="hover:underline">
-            Connexion
-          </Link>
-          <Link to="/register" className="hover:underline">
-            Inscription
-          </Link>
-          <Link to="/movie-detail" className="hover:underline">
-            Movie Details
-          </Link>
-          <Link to="/seat-selector" className="hover:underline">
-            Réserver un siège
-          </Link>
-        </div>
-      </div>
-    </nav>
-  )
-}
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
-    document.documentElement.classList.toggle("dark", theme === "dark");
+    document.documentElement.classList.toggle(
+        "dark",
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
+    );
   }, [theme]);
 
   const toggleTheme = () => {
@@ -50,51 +19,33 @@ const Navbar = () => {
   };
 
   return (
-      <nav className="bg-blue-500 dark:bg-gray-900 shadow-md text-white py-4">
-        <div className="container mx-auto flex justify-between items-center px-6">
+    // <nav className="bg-blue-500 text-white py-4">
 
-          {/* Logo */}
-          <Link to="/" className="text-2xl font-bold tracking-wide">
-            🎬 MovieApp
-          </Link>
+      <nav className="bg-blue-500 text-white py-4 flex transition-all [data-theme='dark']:bg-gray-900 [data-theme='dark']:text-gray-200">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="space-x-4 flex-1 flex justify-between">
 
-          {/* Menu Responsive */}
-          <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-white focus:outline-none"
-          >
-            <Menu size={28} />
-          </button>
 
-          {/* Liens */}
-          <div className={`md:flex md:items-center space-x-6 ${isMenuOpen ? "block" : "hidden"} w-full md:w-auto`}>
-            <Link to="/movies" className="hover:text-gray-200 transition">Films</Link>
-            <Link to="/about" className="hover:text-gray-200 transition">À propos</Link>
-            <Link to="/" className="text-2xl font-bold tracking-wide hover:text-gray-300 transition">
-            </Link>
+              <button
+                  onClick={toggleTheme}
+                  className="p-2 rounded-full bg-gray-200 text-gray-800 transition-colors [data-theme='dark']:bg-gray-700 [data-theme='dark']:text-gray-200"
+              >
+                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+              <Link to="/movies" className="hover:underline">
+                Films
+              </Link>
+              <Link to="/login" className="hover:underline">
+                Connexion
+              </Link>
+              <Link to="/movie-detail" className="hover:underline">
+                Movie Details
+              </Link>
+              <Link to="/seat-selector" className="hover:underline">
+                Réserver un siège
+              </Link>
 
-            {/* 🔹 Vérifier si le rôle est admin avant d'afficher "Gestion administrative" */}
-            {role === "admin" && (
-                <Link to="/backoffice" className="text-yellow-400 font-semibold hover:text-yellow-300 transition">
-                  Gestion administrative
-                </Link>
-            )}
-
-            {/* Toggle Dark Mode */}
-            <button
-                onClick={toggleTheme}
-                className="p-2 rounded-full bg-gray-300 dark:bg-gray-700"
-            >
-              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-
-            <Link to="/login" className="bg-white text-blue-500 px-4 py-2 rounded shadow hover:bg-gray-100 transition">
-              Connexion
-            </Link>
-            <Link to="/register" className="bg-yellow-400 text-black px-4 py-2 rounded shadow hover:bg-yellow-500 transition">
-              Inscription
-            </Link>
-          </div>
+            </div>
         </div>
       </nav>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Film } from 'lucide-react';
 import axios, { AxiosResponse } from 'axios';
 import { MovieCard } from '../features/movies-list/components/MovieCard';
@@ -31,8 +31,10 @@ function MoviesList() {
 
   return (
     <div className="min-h-screen py-8 px-4">
+    <div className="min-h-screen py-8 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold flex items-center gap-2">
           <h1 className="text-3xl font-bold flex items-center gap-2">
             <Film className="w-8 h-8" />
             Films Populaires

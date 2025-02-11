@@ -3,14 +3,12 @@ import App from '../App';
 import Login from '../auth/Login';
 import Register from '../auth/Register';
 import MoviesList from '../pages/MoviesList';
-import Home from "../pages/Home.tsx";
-import About from "../pages/About.tsx";
+import SeatSelector from '../components/SeatSelector';
+import MovieDetailsPage from '../pages/MovieDetailsPage';
 import Dashboard from "../pages/backoffice/Dashboard.tsx";
 import ManageMovie from "../pages/backoffice/ManageMovie.tsx";
 import ManageSession from "../pages/backoffice/ManageSession.tsx";
 import ManageUser from "../pages/backoffice/ManageUser.tsx";
-import SeatSelector from '../components/SeatSelector';
-import MovieDetailsPage from '../pages/MovieDetailsPage';
 
 export const routes: RouteObject[] = [
     {
@@ -19,19 +17,15 @@ export const routes: RouteObject[] = [
         children: [
             {
                 path: '/',
-                element: <Home />
+                element: <Dashboard />
             },
             {
                 path: '/home',
-                element: <Home />
+                element: <Dashboard />
             },
             {
                 path: '/movies',
                 element: <MoviesList />
-            },
-            {
-                path: '/about',
-                element: <About />
             },
             {
                 path: '/login',
@@ -65,8 +59,23 @@ export const routes: RouteObject[] = [
                 path: '/movie-detail',
                 element: <MovieDetailsPage />
             },
-            
+            {
 
+                path: '/backoffice',
+                element: <Dashboard />,
+            },
+            {
+                path: '/backoffice/manage-movie',
+                element: <ManageMovie/>,
+            },
+            {
+                path: '/backoffice/manage-session',
+                element: <ManageSession/>,
+            },
+            {
+                path: '/backoffice/manage-user',
+                element: <ManageUser/>,
+            }
 
         ]
     }
