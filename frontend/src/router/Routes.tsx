@@ -3,13 +3,13 @@ import App from '../App';
 import Login from '../auth/Login';
 import Register from '../auth/Register';
 import MoviesList from '../pages/MoviesList';
-import Home from "../pages/Home.tsx";
-import About from "../pages/About.tsx";
-import Dashboard from "../pages/backoffice/Dashboard.tsx";
-import ManageMovie from "../pages/backoffice/ManageMovie.tsx";
-import ManageSession from "../pages/backoffice/ManageSession.tsx";
-import ManageUser from "../pages/backoffice/ManageUser.tsx";
-import SeatSelector from '../components/SeatSelector';
+import Home from "../pages/Home";
+import About from "../pages/About";
+import Dashboard from "../pages/backoffice/Dashboard";
+import ManageMovie from "../pages/backoffice/ManageMovie";
+import ManageSession from "../pages/backoffice/ManageSession";
+import ManageUser from "../pages/backoffice/ManageUser";
+import SeatSelectorPage from '../pages/SeatSelectorPage';
 import MovieDetailsPage from '../pages/MovieDetailsPage';
 import AddMovie from "../pages/backoffice/AddMovie.tsx";
 
@@ -50,6 +50,11 @@ export const routes: RouteObject[] = [
                 path: "/backoffice/add-movie",
                 element: <AddMovie/>
             },
+            // Route pour les détails d'un film, avec filmId en paramètre
+            { path: '/movie-detail/:filmId', element: <MovieDetailsPage /> },
+            // Route pour la sélection de sièges, avec sessionId en paramètre
+            { path: '/seat-selector/:sessionId', element: <SeatSelectorPage /> },
+            { path: '/about', element: <About /> },
         ]
     }
 ];

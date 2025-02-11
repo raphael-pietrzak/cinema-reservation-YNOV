@@ -1,6 +1,6 @@
 const AUTH_BASE_URL = 'http://localhost:3000';
-const MOVIES_BASE_URL = 'http://localhost:8000';
-const SESSIONS_BASE_URL = 'http://localhost:1590';
+const MOVIES_BASE_URL = 'http://localhost:1590';
+const SESSIONS_BASE_URL = 'http://localhost:8000';
 
 export const API_URLS = {
     auth: {
@@ -16,10 +16,11 @@ export const API_URLS = {
         delete: (id: number) => `${MOVIES_BASE_URL}/movie/${id}/delete`,
     },
     sessions: {
-        getAll: `${SESSIONS_BASE_URL}/sessions`,
-        getOne: (id: number) => `${SESSIONS_BASE_URL}/sessions/${id}`,
-        create: `${SESSIONS_BASE_URL}/sessions`,
-        update: (id: number) => `${SESSIONS_BASE_URL}/sessions/${id}`,
-        delete: (id: number) => `${SESSIONS_BASE_URL}/sessions/${id}`,
+        getAll: `${SESSIONS_BASE_URL}/api/cinema_sessions/`,
+        getOne: (id: string) => `${SESSIONS_BASE_URL}/api/cinema_sessions/${id}/`,
+        create: `${SESSIONS_BASE_URL}/api/cinema_sessions/`,
+        update: (id: string) => `${SESSIONS_BASE_URL}/api/cinema_sessions/${id}/`,
+        delete: (id: string) => `${SESSIONS_BASE_URL}/api/cinema_sessions/${id}/`,
+        reserve: `${SESSIONS_BASE_URL}/api/reservations/`,
     }
 };

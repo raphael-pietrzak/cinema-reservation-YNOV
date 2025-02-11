@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Armchair as Chair, Euro } from 'lucide-react';
+import axios, { AxiosResponse } from 'axios';
+import { API_URLS } from '../config/api';
 
-type Seat = {
+export type Seat = {
   id: string;
   row: string;
   number: number;
@@ -9,11 +11,23 @@ type Seat = {
   isSelected: boolean;
 };
 
-function SeatSelector() {
+interface ReservationType {
+  id: number;
+  cinema_session: number;
+  user_id: number;
+  seat_codes: string[]; // Maintenant, une liste de codes de sièges réservés
+}
+
+type SeatSelectorProps = {
+  sessionId: number; // L'identifiant de la séance pour laquelle la réservation est effectuée
+};
+
+function SeatSelector({ sessionId }: SeatSelectorProps) {
   const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   const seatsPerRow = 12;
   const prixParSiege = 9.50;
 
+  // Initialisation des sièges (tous non occupés au départ)
   const [seats, setSeats] = useState<Seat[]>(() => {
     const initialSeats: Seat[] = [];
     rows.forEach(row => {
@@ -22,14 +36,29 @@ function SeatSelector() {
           id: `${row}${i}`,
           row,
           number: i,
-          isOccupied: Math.random() < 0.2, // 20% des sièges sont occupés aléatoirement
-          isSelected: false
+          isOccupied: false,
+          isSelected: false,
         });
       }
     });
     return initialSeats;
   });
 
+  // Au montage, récupérer les réservations existantes pour cette séance et mettre à jour l'état
+  useEffect(() => {
+    axios.get(`${API_URLS.sessions.reserve}?cinema_session=${sessionId}`)
+      .then((response: AxiosResponse<ReservationType[]>) => {
+        const reservedSeats = response.data.flatMap(reservation => reservation.seat_codes);
+        setSeats(prevSeats =>
+          prevSeats.map(seat =>
+            reservedSeats.includes(seat.id) ? { ...seat, isOccupied: true } : seat
+          )
+        );
+      })
+      .catch(error => console.error("Erreur lors de la récupération des réservations :", error));
+  }, [sessionId]);
+
+  // Permet de basculer la sélection d'un siège s'il n'est pas déjà occupé
   const handleSeatClick = (seatId: string) => {
     setSeats(prevSeats =>
       prevSeats.map(seat =>
@@ -43,6 +72,45 @@ function SeatSelector() {
   const selectedSeats = seats.filter(seat => seat.isSelected);
   const totalPrice = selectedSeats.length * prixParSiege;
 
+  // La fonction handleReserve envoie une seule requête POST avec la liste de tous les codes sélectionnés
+  const handleReserve = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert("Vous devez être connecté pour réserver.");
+      return;
+    }
+  
+    const seatCodes = selectedSeats.map(seat => seat.id);
+  
+    fetch(API_URLS.sessions.reserve, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        cinema_session: sessionId, // L'ID de la séance
+        seat_codes: seatCodes,     // Tableau des codes de sièges réservés
+      }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Erreur lors de la réservation.");
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Réservation réussie :", data);
+        // Mettre à jour l'état pour marquer tous les sièges réservés comme occupés et les désélectionner
+        setSeats(prevSeats =>
+          prevSeats.map(seat =>
+            seatCodes.includes(seat.id) ? { ...seat, isOccupied: true, isSelected: false } : seat
+          )
+        );
+      })
+      .catch(error => console.error("Erreur :", error));
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <div className="max-w-4xl mx-auto">
@@ -53,7 +121,7 @@ function SeatSelector() {
           <p className="absolute -bottom-8 w-full text-center text-gray-400">ÉCRAN</p>
         </div>
 
-        {/* Sièges */}
+        {/* Grille des sièges */}
         <div className="space-y-4 mb-12">
           {rows.map(row => (
             <div key={row} className="flex justify-center gap-2">
@@ -101,7 +169,7 @@ function SeatSelector() {
           </div>
         </div>
 
-        {/* Résumé */}
+        {/* Résumé et Réservation */}
         <div className="bg-gray-800 rounded-lg p-6">
           <h2 className="text-xl font-semibold mb-4">Résumé de la réservation</h2>
           <div className="space-y-2 mb-4">
@@ -128,6 +196,7 @@ function SeatSelector() {
           </div>
           <button
             disabled={selectedSeats.length === 0}
+            onClick={handleReserve}
             className={`
               w-full mt-6 py-3 rounded-lg font-semibold transition-colors
               ${selectedSeats.length > 0 
