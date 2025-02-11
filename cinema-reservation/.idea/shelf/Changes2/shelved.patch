@@ -1,0 +1,106 @@
+Index: app/register.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/register.jsx b/app/register.jsx
+--- a/app/register.jsx	(revision 471200d35ea2f6922d560e3f80fbf24ae53e353e)
++++ b/app/register.jsx	(date 1737372306460)
+@@ -1,0 +1,97 @@
++"use client";
++
++import React, { useState } from "react";
++import { useRouter } from "next/navigation";
++
++export default function RegisterPage() {
++    const [email, setEmail] = useState("");
++    const [password, setPassword] = useState("");
++    const [confirmPassword, setConfirmPassword] = useState("");
++    const [error, setError] = useState(null);
++    const [success, setSuccess] = useState(false);
++    const router = useRouter(); // Pour gérer la redirection après inscription
++
++    const handleRegister = async (e) => {
++        e.preventDefault();
++        setError(null);
++        setSuccess(false);
++
++        // Validation basique
++        if (password !== confirmPassword) {
++            setError("Les mots de passe ne correspondent pas.");
++            return;
++        }
++
++        // Simuler une inscription réussie
++        const userData = {
++            email,
++            password,
++        };
++
++        // Enregistrer les données dans localStorage (simulation)
++        localStorage.setItem("userData", JSON.stringify(userData));
++        setSuccess(true);
++
++        // Rediriger l'utilisateur vers la page de connexion après une courte pause
++        setTimeout(() => {
++            router.push("/login");
++        }, 2000);
++    };
++
++    return (
++        <div className="container mx-auto max-w-md py-10">
++            <h1 className="text-3xl font-bold mb-6 text-center">Inscription</h1>
++            <form
++                onSubmit={handleRegister}
++                className="bg-white p-6 rounded-lg shadow-md space-y-4"
++            >
++                {error && (
++                    <div className="text-red-500 text-sm bg-red-100 p-2 rounded">
++                        {error}
++                    </div>
++                )}
++                {success && (
++                    <div className="text-green-500 text-sm bg-green-100 p-2 rounded">
++                        Inscription réussie ! Redirection vers la page de connexion...
++                    </div>
++                )}
++                <div>
++                    <label className="block text-gray-700">Email</label>
++                    <input
++                        type="email"
++                        value={email}
++                        onChange={(e) => setEmail(e.target.value)}
++                        className="w-full p-2 border border-gray-300 rounded mt-1"
++                        required
++                    />
++                </div>
++                <div>
++                    <label className="block text-gray-700">Mot de passe</label>
++                    <input
++                        type="password"
++                        value={password}
++                        onChange={(e) => setPassword(e.target.value)}
++                        className="w-full p-2 border border-gray-300 rounded mt-1"
++                        required
++                    />
++                </div>
++                <div>
++                    <label className="block text-gray-700">Confirmer le mot de passe</label>
++                    <input
++                        type="password"
++                        value={confirmPassword}
++                        onChange={(e) => setConfirmPassword(e.target.value)}
++                        className="w-full p-2 border border-gray-300 rounded mt-1"
++                        required
++                    />
++                </div>
++                <button
++                    type="submit"
++                    className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
++                >
++                    S'inscrire
++                </button>
++            </form>
++        </div>
++    );
++}

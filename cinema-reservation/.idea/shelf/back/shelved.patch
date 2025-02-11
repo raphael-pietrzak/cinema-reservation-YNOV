@@ -1,0 +1,69 @@
+Index: app/login/page.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\r\n\r\n\r\n// app/login/page.jsx\r\nimport Login from '../../pages/Login';\r\nimport React from \"react\";\r\n\r\nexport default function LoginPage() {\r\n    return <Login />;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/login/page.jsx b/app/login/page.jsx
+--- a/app/login/page.jsx	(revision 471200d35ea2f6922d560e3f80fbf24ae53e353e)
++++ b/app/login/page.jsx	(date 1737362471403)
+@@ -1,10 +1,52 @@
+ "use client";
+ 
++import React, { useState } from "react";
++import UserForm from "@/components/UserForm";
++import { loginUser, loginFakeUser } from "@/services/sessionService";
++import useAuth from "../hooks/useAuth"; // Import du hook personnalisé
++import { useRouter } from "next/router";
++
++const Login = () => {
++    const { isAuthenticated } = useAuth();
++
++    const [formData, setFormData] = useState({
++        email: "",
++        password: "",
++    });
++    const [message, setMessage] = useState("");
++
++    const handleChange = (e) => {
++        const { name, value } = e.target;
++        setFormData({ ...formData, [name]: value });
++    };
+ 
+-// app/login/page.jsx
+-import Login from '../../pages/Login';
+-import React from "react";
++    const handleSubmit = async (e) => {
++        e.preventDefault();
++        try {
++            const response = await loginFakeUser(formData);
+ 
+-export default function LoginPage() {
+-    return <Login />;
+-}
++            if(response?.success) {
++                localStorage.setItem("authToken", response.token);
++                setMessage("Connexion réussie!");
++                setTimeout(() => {
++                    window.location.reload();
++                }, 1000);
++            }
++
++        } catch (error) {
++            setMessage(error.response?.data?.message || "Erreur de connexion.");
++        }
++    };
++
++    return (
++        <UserForm
++            formData={formData}
++            onChange={handleChange}
++            onSubmit={handleSubmit}
++            isRegister={false}
++            message={message}
++        />
++    );
++};
++
++export default Login;
