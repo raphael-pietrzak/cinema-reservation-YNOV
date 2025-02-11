@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Film } from 'lucide-react';
 import axios, { AxiosResponse } from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { MovieCard } from '../features/movies-list/components/MovieCard';
 import { GenreFilter } from '../features/movies-list/components/GenreFilter';
 import { movies } from '../features/movies-list/data/movies';
 import { Movie } from '../features/movies-list/types/movie';
+import { API_URLS } from '../config/api';
 
 function MoviesList() {
   const [moviesList, setMovies] = useState<Movie[]>(movies);
   const [selectedGenre, setSelectedGenre] = useState<string>('All');
+  const navigate = useNavigate();
 
   const fetchMovies = async () => {
     try {
-      const response: AxiosResponse = await axios.get('http://127.0.0.1:1590/movie');
+      const response: AxiosResponse = await axios.get(API_URLS.movies.getAll);
       const data: Movie[] = response.data;
       setMovies(data);
     } catch (error) {
@@ -28,6 +31,10 @@ function MoviesList() {
   const filteredMovies = selectedGenre === 'All' 
     ? moviesList 
     : moviesList.filter(movie => movie.genre === selectedGenre);
+
+  const handleMovieClick = (movieId: number) => {
+    navigate(`/movie/${movieId}`);
+  };
 
   return (
     <div className="min-h-screen py-8 px-4">
