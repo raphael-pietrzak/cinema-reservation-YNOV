@@ -1,57 +1,43 @@
-from rest_framework.decorators import action
-from rest_framework.response import Response
+# views.py
+import jwt
 from rest_framework import viewsets, status
-from .models import CinemaSession
-from .serializers import CinemaSessionSerializer
+from rest_framework.response import Response
+from .models import CinemaSession, Reservation
+from .serializers import CinemaSessionSerializer, ReservationSerializer
 
 class CinemaSessionViewSet(viewsets.ModelViewSet):
     queryset = CinemaSession.objects.all()
     serializer_class = CinemaSessionSerializer
 
-    @action(detail=True, methods=['post'])
-    def reserve(self, request, pk=None):
-        """
-        Endpoint pour réserver un certain nombre de places pour une séance.
-        """
-        seats_to_reserve = request.data.get("seats", None)
-        if seats_to_reserve is None:
-            return Response(
-                {"error": "The 'seats' field is required."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+    # Votre action "reserve" existante, si nécessaire
 
+class ReservationViewSet(viewsets.ModelViewSet):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+    def create(self, request, *args, **kwargs):
+        breakpoint()
+        # Récupérer l'en-tête Authorization et extraire le token
+        auth_header = request.headers.get('Authorization')
+        if not auth_header:
+            return Response({"error": "Le token est requis."}, status=status.HTTP_401_UNAUTHORIZED)
         try:
-            seats_to_reserve = int(seats_to_reserve)
-        except ValueError:
-            return Response(
-                {"error": "'seats' must be a valid integer."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            token = auth_header.split(" ")[1]
+            # Décodage du token avec la clé secrète et l'algorithme utilisé (ici HS256)
+            decoded_token = jwt.decode(token, 'votre_secret_jwt', algorithms=['HS256'])
+            user_id = decoded_token.get('userId')
+            if not user_id:
+                raise Exception("userId manquant dans le token")
+        except Exception as e:
+            return Response({"error": "Token invalide", "detail": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
-        if seats_to_reserve <= 0:
-            return Response(
-                {"error": "'seats' must be greater than 0."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        # Copie des données de la requête et insertion de l'user_id obtenu
+        data = request.data.copy()
+        data['user_id'] = user_id
 
-        # Vérifier que la séance existe
-        try:
-            session = CinemaSession.objects.get(pk=pk)
-        except CinemaSession.DoesNotExist:
-            return Response({"error": "Session not found"}, status=status.HTTP_404_NOT_FOUND)
+        # Optionnel : vous pouvez vérifier ici la validité du code de place (format, unicité par session, etc.)
 
-        # Vérifier la disponibilité des places
-        if seats_to_reserve > session.available_seats:
-            return Response(
-                {"error": "Not enough seats available", "available_seats": session.available_seats},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        # Réserver les places
-        session.available_seats -= seats_to_reserve
-        session.save()
-
-        return Response({
-            "message": "Reservation successful",
-            "session": CinemaSessionSerializer(session).data
-        })
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
