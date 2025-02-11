@@ -12,6 +12,7 @@ import ManageUser from "../pages/backoffice/ManageUser";
 import SeatSelectorPage from '../pages/SeatSelectorPage';
 import MovieDetailsPage from '../pages/MovieDetailsPage';
 import AddMovie from "../pages/backoffice/AddMovie.tsx";
+import MovieDetails from '../pages/MovieDetails';
 
 export const routes: RouteObject[] = [
     {
@@ -55,6 +56,10 @@ export const routes: RouteObject[] = [
             // Route pour la sélection de sièges, avec sessionId en paramètre
             { path: '/seat-selector/:sessionId', element: <SeatSelectorPage /> },
             { path: '/about', element: <About /> },
+            {
+                path: '/movie/:id',
+                element: <MovieDetails />
+            },
         ]
     }
 ];
