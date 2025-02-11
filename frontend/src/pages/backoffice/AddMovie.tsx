@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 //@ts-ignore
 import axios, { AxiosResponse } from 'axios';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 const AddMovie = () => {
     const [movie, setMovie] = useState({ name: "", year: "", duration: "", genre: "", image: "" , director: ""});
@@ -17,14 +17,13 @@ const AddMovie = () => {
         e.preventDefault();
         axios.post(`http://localhost:1590/movie/create`, movie)
             .then((res) => {
-                if (res.status == 200)
+                console.log(res.status)
+                if (res.status == 201)
                     toast.success('Film créé!');
                 else
                     toast.error('Erreur!');
             });
-        navigate("/backoffice/manage-movie");
-        toast.success('Film ajouté avec succès !');
-        toast.error('Erreur lors de l\'ajout du film');
+        navigate("/backoffice");
     };
 
     return (
@@ -37,15 +36,15 @@ const AddMovie = () => {
                         type="text"
                         placeholder="Titre du film"
                         value={movie.name}
-                        onChange={(e) => handleChange("title", e.target.value)}
+                        onChange={(e) => handleChange("name", e.target.value)}
                         className="w-full px-4 py-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-black dark:text-white"
                         required
                     />
                     <input
                         type="text"
                         placeholder="Réalisateur"
-                        value={movie.image}
-                        onChange={(e) => handleChange("réalisateur", e.target.value)}
+                        value={movie.director}
+                        onChange={(e) => handleChange("director", e.target.value)}
                         className="w-full px-4 py-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-black dark:text-white"
                     />
                     <input
@@ -88,8 +87,18 @@ const AddMovie = () => {
                         Ajouter le film
                     </button>
                 </form>
-
             </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </div>
     );
 };
