@@ -10,16 +10,16 @@ export const API_URLS = {
     },
     movies: {
         getAll: `${MOVIES_BASE_URL}/movie`,
-        getOne: (id: string) => `${MOVIES_BASE_URL}/movie/${id}`,
+        getOne: (id: number) => `${MOVIES_BASE_URL}/movie/${id}`,
         create: `${MOVIES_BASE_URL}/movie`,
-        update: (id: string) => `${MOVIES_BASE_URL}/movie/${id}/update`,
-        delete: (id: string) => `${MOVIES_BASE_URL}/movie/${id}/delete`,
+        update: (id: number) => `${MOVIES_BASE_URL}/movie/${id}/update`,
+        delete: (id: number) => `${MOVIES_BASE_URL}/movie/${id}/delete`,
     },
     sessions: {
         getAll: `${SESSIONS_BASE_URL}/sessions`,
-        getOne: (id: string) => `${SESSIONS_BASE_URL}/sessions/${id}`,
+        getOne: (id: number) => `${SESSIONS_BASE_URL}/sessions/${id}`,
         create: `${SESSIONS_BASE_URL}/sessions`,
-        update: (id: string) => `${SESSIONS_BASE_URL}/sessions/${id}`,
-        delete: (id: string) => `${SESSIONS_BASE_URL}/sessions/${id}`,
+        update: (id: number) => `${SESSIONS_BASE_URL}/sessions/${id}`,
+        delete: (id: number) => `${SESSIONS_BASE_URL}/sessions/${id}`,
     }
 };
