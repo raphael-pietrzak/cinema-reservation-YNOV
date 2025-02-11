@@ -1,8 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import axios from 'axios'
 import { AuthProvider } from './context/AuthContext'
-import { API_URLS } from './config/api'
 
 function App() {
   return (

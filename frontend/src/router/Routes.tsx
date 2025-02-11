@@ -11,6 +11,7 @@ import ManageSession from "../pages/backoffice/ManageSession.tsx";
 import ManageUser from "../pages/backoffice/ManageUser.tsx";
 import SeatSelector from '../components/SeatSelector';
 import MovieDetailsPage from '../pages/MovieDetailsPage';
+import MovieDetails from '../pages/MovieDetails';
 
 export const routes: RouteObject[] = [
     {
@@ -44,6 +45,10 @@ export const routes: RouteObject[] = [
             {
                 path: '/movie-detail',
                 element: <MovieDetailsPage />
+            },
+            {
+                path: '/movie/:id',
+                element: <MovieDetails />
             },
         ]
     }

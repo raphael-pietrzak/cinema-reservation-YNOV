@@ -4,11 +4,17 @@ import { Movie } from '../types/movie';
 
 interface MovieCardProps {
   movie: Movie;
+  onClick: () => void;
 }
 
-export function MovieCard({ movie }: MovieCardProps) {
+export function MovieCard({ movie, onClick }: MovieCardProps) {
   return (
-    <div className="bg-gray-900 text-gray-100
+    <div 
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onClick()}
+      className="bg-gray-900 text-gray-100 cursor-pointer
       dark:bg-white
       rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-105">
       <div className="h-48 overflow-hidden">
