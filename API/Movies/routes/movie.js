@@ -79,7 +79,7 @@ router.delete('/:id/delete', (req, res, next) => {
     get_acl(req.headers.token, (role) => {
         if (role == "admin") {
             model.deleteOne({_id: req.params.id}).then((deleted) => {
-                if (deleted == 1)
+                if (deleted.deletedCount == 1)
                     res.status(200).send();
                 else
                     res.status(404).send("Not Found");
