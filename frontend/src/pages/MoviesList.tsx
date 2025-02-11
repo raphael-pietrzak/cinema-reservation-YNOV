@@ -6,6 +6,7 @@ import { MovieCard } from '../features/movies-list/components/MovieCard';
 import { GenreFilter } from '../features/movies-list/components/GenreFilter';
 import { movies } from '../features/movies-list/data/movies';
 import { Movie } from '../features/movies-list/types/movie';
+import { API_URLS } from '../config/api';
 
 function MoviesList() {
   const [moviesList, setMovies] = useState<Movie[]>(movies);
@@ -14,7 +15,7 @@ function MoviesList() {
 
   const fetchMovies = async () => {
     try {
-      const response: AxiosResponse = await axios.get('http://127.0.0.1:1590/movie');
+      const response: AxiosResponse = await axios.get(API_URLS.movies.getAll);
       const data: Movie[] = response.data;
       setMovies(data);
     } catch (error) {
@@ -31,8 +32,8 @@ function MoviesList() {
     ? moviesList 
     : moviesList.filter(movie => movie.genre === selectedGenre);
 
-  const handleMovieClick = () => {
-    navigate('/movie-detail');
+  const handleMovieClick = (movieId: number) => {
+    navigate(`/movie/${movieId}`);
   };
 
   return (
@@ -55,7 +56,7 @@ function MoviesList() {
             <MovieCard 
               key={movie.id} 
               movie={movie} 
-              onClick={handleMovieClick}
+              onClick={() => handleMovieClick(movie.id)}
             />
           ))}
         </div>
