@@ -19,7 +19,6 @@ function get_acl(token, callback) {
 // GET movie by Query
 router.get('/', (req, res, next) => {
     model.find(req.query).exec().then((movies) => {
-        console.log(movies);
         res.status(200).send(movies);
     })
 });
@@ -31,7 +30,6 @@ router.get('/:id', (req, res, next) => {
             res.status(404).send("Movie not found");
             return
         }
-        console.log(movie);
         res.status(200).send(movie);
     })
 });

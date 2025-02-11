@@ -1,14 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Film } from 'lucide-react';
+import axios, { AxiosResponse } from 'axios';
 import { MovieCard } from '../features/movies-list/components/MovieCard';
 import { GenreFilter } from '../features/movies-list/components/GenreFilter';
 import { movies } from '../features/movies-list/data/movies';
 import { Movie } from '../features/movies-list/types/movie';
 
 function MoviesList() {
-  const [moviesList] = useState<Movie[]>(movies);
+  const [moviesList, setMovies] = useState<Movie[]>(movies);
   const [selectedGenre, setSelectedGenre] = useState<string>('All');
 
+  const fetchMovies = async () => {
+    try {
+      const response: AxiosResponse = await axios.get('http://127.0.0.1:1590/movie');
+      const data: Movie[] = response.data;
+      setMovies(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+  
   const genres = ['All', ...new Set(moviesList.map(movie => movie.genre))];
   const filteredMovies = selectedGenre === 'All' 
     ? moviesList 
