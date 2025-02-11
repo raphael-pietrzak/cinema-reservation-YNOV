@@ -1,17 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Menu } from "lucide-react";
 
 const Navbar = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [role, setRole] = useState(localStorage.getItem("role") || "user"); // 🔹 Récupérer le rôle stocké
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
-    document.documentElement.classList.toggle(
-        "dark",
-        localStorage.theme === "dark" ||
-        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
-    );
+    document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
   const toggleTheme = () => {
