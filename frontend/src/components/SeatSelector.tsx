@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Armchair as Chair, Euro } from 'lucide-react';
+import { API_URLS } from '../config/api';
 
-type Seat = {
+export type Seat = {
   id: string;
   row: string;
   number: number;
@@ -9,7 +10,11 @@ type Seat = {
   isSelected: boolean;
 };
 
-function SeatSelector() {
+type SeatSelectorProps = {
+  sessionId: number; // L'identifiant de la séance pour laquelle la réservation est effectuée
+};
+
+function SeatSelector({ sessionId }: SeatSelectorProps) {
   const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   const seatsPerRow = 12;
   const prixParSiege = 9.50;
@@ -22,7 +27,7 @@ function SeatSelector() {
           id: `${row}${i}`,
           row,
           number: i,
-          isOccupied: Math.random() < 0.2, // 20% des sièges sont occupés aléatoirement
+          isOccupied: Math.random() < 0.2, // 20% des sièges occupés aléatoirement
           isSelected: false
         });
       }
@@ -42,6 +47,47 @@ function SeatSelector() {
 
   const selectedSeats = seats.filter(seat => seat.isSelected);
   const totalPrice = selectedSeats.length * prixParSiege;
+
+  const handleReserve = () => {
+    // Récupérer le token stocké (à adapter selon votre mécanisme d'authentification)
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert("Vous devez être connecté pour réserver.");
+      return;
+    }
+  
+    // Pour chaque siège sélectionné, envoyer une requête POST pour créer une réservation
+    selectedSeats.forEach(seat => {
+      fetch(API_URLS.sessions.reserve, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          cinema_session: sessionId, // Ajout du champ requis : l'ID de la séance
+          seat_code: seat.id         // Le code du siège (ex: "A1")
+        })
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Erreur lors de la réservation pour le siège " + seat.id);
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log("Réservation réussie pour le siège", seat.id, data);
+          // Optionnel : mettre à jour l'état pour marquer le siège comme occupé et désélectionné
+          setSeats(prevSeats =>
+            prevSeats.map(s =>
+              s.id === seat.id ? { ...s, isOccupied: true, isSelected: false } : s
+            )
+          );
+        })
+        .catch(error => console.error("Erreur :", error));
+    });
+  };
+  
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
@@ -128,6 +174,7 @@ function SeatSelector() {
           </div>
           <button
             disabled={selectedSeats.length === 0}
+            onClick={handleReserve}
             className={`
               w-full mt-6 py-3 rounded-lg font-semibold transition-colors
               ${selectedSeats.length > 0 
