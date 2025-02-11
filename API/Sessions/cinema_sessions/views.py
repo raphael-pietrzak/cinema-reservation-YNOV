@@ -1,5 +1,6 @@
 # views.py
 import jwt
+import requests
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import CinemaSession, Reservation
@@ -16,18 +17,27 @@ class ReservationViewSet(viewsets.ModelViewSet):
     serializer_class = ReservationSerializer
 
     def create(self, request, *args, **kwargs):
-        breakpoint()
-        # Récupérer l'en-tête Authorization et extraire le token
         auth_header = request.headers.get('Authorization')
         if not auth_header:
             return Response({"error": "Le token est requis."}, status=status.HTTP_401_UNAUTHORIZED)
         try:
             token = auth_header.split(" ")[1]
-            # Décodage du token avec la clé secrète et l'algorithme utilisé (ici HS256)
-            decoded_token = jwt.decode(token, 'votre_secret_jwt', algorithms=['HS256'])
-            user_id = decoded_token.get('userId')
+            
+            # Requête vers le service de vérification du token
+            response = requests.get(
+                'http://localhost:3000/verify-token',
+                headers={'Authorization': f'Bearer {token}'}
+            )
+            
+            if response.status_code != 200:
+                return Response({"error": "Token invalide"}, status=status.HTTP_401_UNAUTHORIZED)
+                
+            user_data = response.json()
+            user_id = user_data.get('userId')
+            
             if not user_id:
-                raise Exception("userId manquant dans le token")
+                return Response({"error": "UserId non trouvé"}, status=status.HTTP_401_UNAUTHORIZED)
+
         except Exception as e:
             return Response({"error": "Token invalide", "detail": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
