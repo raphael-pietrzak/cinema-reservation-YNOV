@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Film } from 'lucide-react';
 import axios, { AxiosResponse } from 'axios';
 import { MovieCard } from '../features/movies-list/components/MovieCard';
