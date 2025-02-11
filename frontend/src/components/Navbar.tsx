@@ -36,7 +36,6 @@ const Navbar = () => {
           {/* Liens */}
           <div className={`md:flex md:items-center space-x-6 ${isMenuOpen ? "block" : "hidden"} w-full md:w-auto`}>
             <Link to="/movies" className="hover:text-gray-200 transition">Films</Link>
-            <Link to="/about" className="hover:text-gray-200 transition">À propos</Link>
             <Link to="/" className="text-2xl font-bold tracking-wide hover:text-gray-300 transition">
             </Link>
 
@@ -58,9 +57,7 @@ const Navbar = () => {
             <Link to="/login" className="bg-white text-blue-500 px-4 py-2 rounded shadow hover:bg-gray-100 transition">
               Connexion
             </Link>
-            <Link to="/register" className="bg-yellow-400 text-black px-4 py-2 rounded shadow hover:bg-yellow-500 transition">
-              Inscription
-            </Link>
+
           </div>
         </div>
       </nav>
