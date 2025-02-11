@@ -36,12 +36,12 @@ export function ManageSessionCard({ session, movies, onSave }: ManageSessionCard
   };
 
   return (
-    <div className="bg-gray-900 text-gray-100 dark:bg-white rounded-xl shadow-lg p-6 w-96 text-gray-900 custom-flex-third-container">
-      <div className="flex flex-col gap-4">
-        {/* Sélection du film */}
-        <label className="text-gray-700 text-lg">Film</label>
+      <div className="bg-gray-100 text-gray-100 dark:bg-gray-900 rounded-xl shadow-lg p-6 w-96 custom-flex-third-container">
+        <div className="flex flex-col gap-4">
+          {/* Sélection du film */}
+          <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">Film</label>
         <select
-          className="bg-gray-200 pl-2 pr-2 rounded"
+          className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
           value={editedSession.film}
           onChange={(e) => handleChange('film', e.target.value)}
         >
@@ -53,36 +53,36 @@ export function ManageSessionCard({ session, movies, onSave }: ManageSessionCard
         </select>
 
         {/* Date */}
-        <label className="text-gray-700 text-lg">Date</label>
+        <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">Date</label>
         <input
-          className="bg-gray-200 pl-2 pr-2 rounded"
+          className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
           type="date"
           value={editedSession.date}
           onChange={(e) => handleChange('date', e.target.value)}
         />
 
         {/* Heure de début */}
-        <label className="text-gray-700 text-lg">Heure de début</label>
+        <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">Heure de début</label>
         <input
-          className="bg-gray-200 pl-2 pr-2 rounded"
+          className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
           type="time"
           value={editedSession.start_time}
           onChange={(e) => handleChange('start_time', e.target.value)}
         />
 
         {/* Heure de fin */}
-        <label className="text-gray-700 text-lg">Heure de fin</label>
+        <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">Heure de fin</label>
         <input
-          className="bg-gray-200 pl-2 pr-2 rounded"
+          className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
           type="time"
           value={editedSession.end_time}
           onChange={(e) => handleChange('end_time', e.target.value)}
         />
 
         {/* Nombre total de places */}
-        <label className="text-gray-700 text-lg">Nombre total de places</label>
+        <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">Nombre total de places</label>
         <input
-          className="bg-gray-200 pl-2 pr-2 rounded"
+          className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
           type="number"
           value={editedSession.totalSeats}
           min={1}
@@ -90,9 +90,9 @@ export function ManageSessionCard({ session, movies, onSave }: ManageSessionCard
         />
 
         {/* Places disponibles */}
-        <label className="text-gray-700 text-lg">Places disponibles</label>
+        <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">Places disponibles</label>
         <input
-          className="bg-gray-200 pl-2 pr-2 rounded"
+          className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
           type="number"
           value={editedSession.availableSeats}
           min={0}
@@ -102,8 +102,8 @@ export function ManageSessionCard({ session, movies, onSave }: ManageSessionCard
       </div>
 
       <div className="flex justify-end mt-4">
-        <button onClick={() => onSave(editedSession)} className="bg-blue-500 text-white px-4 py-2 rounded">
-          <Save className="w-4 h-4 mr-2 inline" /> Sauvegarder
+        <button onClick={() => onSave(editedSession)} className="font-bold text-green-500 flex justify-around items-center rounded pl-2 pr-2 text-xl">
+          <Save/>
         </button>
       </div>
     </div>

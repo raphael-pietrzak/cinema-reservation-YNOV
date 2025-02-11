@@ -6,13 +6,14 @@ import MoviesList from '../pages/MoviesList';
 import Home from "../pages/Home";
 import About from "../pages/About";
 import Dashboard from "../pages/backoffice/Dashboard";
-import ManageMovie from "../pages/backoffice/ManageMovie";
-import ManageSession from "../pages/backoffice/ManageSession";
-import ManageUser from "../pages/backoffice/ManageUser";
+// import ManageMovie from "../pages/backoffice/ManageMovie";
+// import ManageSession from "../pages/backoffice/ManageSession";
+// import ManageUser from "../pages/backoffice/ManageUser";
 import SeatSelectorPage from '../pages/SeatSelectorPage';
 import MovieDetailsPage from '../pages/MovieDetailsPage';
 import AddMovie from "../pages/backoffice/AddMovie.tsx";
 import MovieDetails from '../pages/MovieDetails';
+import SeatSelector from "../components/SeatSelector.tsx";
 
 export const routes: RouteObject[] = [
     {
@@ -41,7 +42,7 @@ export const routes: RouteObject[] = [
             },
             {
                 path: '/seat-selector',
-                element: <SeatSelector />
+                element: <SeatSelector sessionId={1} />
             },
             {
                 path: '/movie-detail',

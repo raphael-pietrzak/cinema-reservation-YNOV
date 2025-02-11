@@ -21,8 +21,8 @@ export function ManageMovieCard({ movie, onSave, onDelete }: ManageMovieCardProp
     }, [movie])
 
     return (
-        <div className="bg-gray-900 text-gray-100 dark:bg-white rounded-xl shadow-lg p-6 w-96 custom-flex-third-container">
-            <div className="h-48 overflow-hidden flex justify-center items-center bg-gray-700">
+        <div className="bg-gray-100 text-gray-100 dark:bg-gray-900 rounded-xl shadow-lg p-6 w-96 custom-flex-third-container">
+            <div className="h-48 overflow-hidden flex justify-center items-center bg-gray-700 rounded">
                 {editedMovie.image ? (
                     <img src={editedMovie.image} alt={editedMovie.name} className="w-full h-full object-cover" />
                 ) : (
@@ -32,7 +32,7 @@ export function ManageMovieCard({ movie, onSave, onDelete }: ManageMovieCardProp
 
             <div className="flex flex-col gap-4 mt-4">
                 <input
-                    className="text-gray-900"
+                    className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
                     type="text"
                     placeholder="Titre du film"
                     value={editedMovie.name}
@@ -42,7 +42,7 @@ export function ManageMovieCard({ movie, onSave, onDelete }: ManageMovieCardProp
                 <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-gray-400" />
                     <input
-                        className="text-gray-900"
+                        className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
                         type="text"
                         placeholder="Année"
                         value={editedMovie.year}
@@ -53,7 +53,7 @@ export function ManageMovieCard({ movie, onSave, onDelete }: ManageMovieCardProp
                 <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4 text-gray-400" />
                     <input
-                        className="text-gray-900"
+                        className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
                         type="text"
                         placeholder="Durée (min)"
                         value={editedMovie.duration}
@@ -62,7 +62,7 @@ export function ManageMovieCard({ movie, onSave, onDelete }: ManageMovieCardProp
                 </div>
 
                 <input
-                    className="text-gray-900"
+                    className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
                     type="text"
                     placeholder="Genre"
                     value={editedMovie.genre}
@@ -72,15 +72,15 @@ export function ManageMovieCard({ movie, onSave, onDelete }: ManageMovieCardProp
 
             <div className="flex justify-between mt-4">
                 <button
-                    className="text-gray-100 bg-green-600 font-bold  flex justify-around items-center rounded pl-2 pr-2"
+                    className="font-bold text-green-500 flex justify-around items-center rounded pl-2 pr-2 text-xl"
                     onClick={() => onSave(editedMovie)}>
-                    <Save className="w-4 h-4 mr-2"/> Sauvegarder
+                    <Save />
                 </button>
                 {onDelete && (
                     <button
-                        className="text-gray-100 bg-red-600 font-bold  flex justify-around items-center rounded pl-2 pr-2"
+                        className="font-bold text-red-500 flex justify-around items-center rounded pl-2 pr-2 text-xl"
                         onClick={() => onDelete(editedMovie)}>
-                        <Trash className="w-4 h-4 mr-2"/> Supprimer
+                        <Trash className=""/>
                     </button>
                 )}
             </div>

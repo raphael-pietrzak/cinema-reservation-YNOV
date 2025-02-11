@@ -31,7 +31,7 @@ const SubNavigation = () => {
                     >
                         {tab.name}
                         {activeTab === tab.id && (
-                            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600" />
+                            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary" />
                         )}
                     </button>
                 ))}

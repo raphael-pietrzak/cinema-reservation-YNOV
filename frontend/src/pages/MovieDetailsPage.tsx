@@ -161,7 +161,7 @@ function MovieDetailsPage() {
               <button 
                 className={`w-full mt-6 py-3 px-4 rounded-lg font-semibold transition-colors ${
                   selectedSession 
-                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                    ? 'bg-primary text-white hover:bg-blue-700' 
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
                 disabled={!selectedSession}

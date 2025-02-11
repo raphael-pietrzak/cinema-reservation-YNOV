@@ -1,14 +1,20 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import { AuthProvider } from './context/AuthContext'
+import backgroundImage from '../public/background.png';
 
 function App() {
   return (
     <AuthProvider>
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
-        <Navbar />
-        <Outlet />
-      </div>
+        <div
+            className="relative min-h-screen w-full bg-cover bg-center backdrop-blur-xl"
+            style={{backgroundImage: `url(${backgroundImage})`}}
+        >
+            {/* Overlay avec un dégradé du noir transparent vers transparent */}
+            <Navbar/>
+            <Outlet/>
+
+        </div>
     </AuthProvider>
   )
 }
