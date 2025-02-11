@@ -1,0 +1,54 @@
+Index: components/Navbar.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\r\n\r\nimport React from \"react\";\r\nimport Link from \"next/link\";\r\nimport useAuth from \"@/hooks/useAuth\";\r\n\r\nconst Navbar = () => {\r\n    const { isAuthenticated } = useAuth();\r\n\r\n    return (\r\n        <nav className=\"bg-blue-500 text-white py-4\">\r\n            <div className=\"container mx-auto flex justify-between items-center\">\r\n                <h1 className=\"text-xl font-bold\">\r\n                    <Link href=\"/\">\uD83C\uDFA5 Cinema Reservation</Link>\r\n                </h1>\r\n                <div className=\"space-x-4\">\r\n                    <Link href=\"/\" className=\"hover:underline\">\r\n                        Accueil\r\n                    </Link>\r\n                    <Link href=\"/login\" className=\"hover:underline\" hidden={isAuthenticated}>\r\n                        Connexion\r\n                    </Link>\r\n                    <Link href=\"/register\" className=\"hover:underline\" hidden={isAuthenticated}>\r\n                        Inscription\r\n                    </Link>\r\n                    <Link href=\"/movies\" className=\"hover:underline\" hidden={!isAuthenticated}>\r\n                        Films\r\n                    </Link>\r\n                    <Link href=\"/sessions\" className=\"hover:underline\" hidden={!isAuthenticated}>\r\n                        Sessions\r\n                    </Link>\r\n                    <Link href=\"/logout\" className=\"hover:underline\" hidden={!isAuthenticated}>\r\n                        Déconnexion\r\n                    </Link>\r\n                </div>\r\n            </div>\r\n        </nav>\r\n    );\r\n};\r\n\r\nexport default Navbar;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/components/Navbar.jsx b/components/Navbar.jsx
+--- a/components/Navbar.jsx	(revision 471200d35ea2f6922d560e3f80fbf24ae53e353e)
++++ b/components/Navbar.jsx	(date 1737372448188)
+@@ -1,37 +1,16 @@
+ "use client";
+ 
+ import React from "react";
+-import Link from "next/link";
+-import useAuth from "@/hooks/useAuth";
+ 
+ const Navbar = () => {
+-    const { isAuthenticated } = useAuth();
+-
+     return (
+-        <nav className="bg-blue-500 text-white py-4">
++        <nav className="bg-blue-600 text-white py-4">
+             <div className="container mx-auto flex justify-between items-center">
+-                <h1 className="text-xl font-bold">
+-                    <Link href="/">🎥 Cinema Reservation</Link>
+-                </h1>
+-                <div className="space-x-4">
+-                    <Link href="/" className="hover:underline">
+-                        Accueil
+-                    </Link>
+-                    <Link href="/login" className="hover:underline" hidden={isAuthenticated}>
+-                        Connexion
+-                    </Link>
+-                    <Link href="/register" className="hover:underline" hidden={isAuthenticated}>
+-                        Inscription
+-                    </Link>
+-                    <Link href="/movies" className="hover:underline" hidden={!isAuthenticated}>
+-                        Films
+-                    </Link>
+-                    <Link href="/sessions" className="hover:underline" hidden={!isAuthenticated}>
+-                        Sessions
+-                    </Link>
+-                    <Link href="/logout" className="hover:underline" hidden={!isAuthenticated}>
+-                        Déconnexion
+-                    </Link>
++                <h1 className="text-xl font-bold">Cinema Reservation</h1>
++                <div className="flex space-x-4">
++                    <a href="/">Accueil</a>
++                    <a href="/login">Connexion</a>
++                    <a href="/register">Inscription</a>
+                 </div>
+             </div>
+         </nav>

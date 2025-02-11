@@ -3,6 +3,12 @@ import App from '../App';
 import Login from '../auth/Login';
 import Register from '../auth/Register';
 import MoviesList from '../pages/MoviesList';
+import Home from "../pages/Home.tsx";
+import About from "../pages/About.tsx";
+import Dashboard from "../pages/backoffice/Dashboard.tsx";
+import ManageMovie from "../pages/backoffice/ManageMovie.tsx";
+import ManageSession from "../pages/backoffice/ManageSession.tsx";
+import ManageUser from "../pages/backoffice/ManageUser.tsx";
 import SeatSelector from '../components/SeatSelector';
 import MovieDetailsPage from '../pages/MovieDetailsPage';
 
@@ -12,22 +18,12 @@ export const routes: RouteObject[] = [
         element: <App />,
         children: [
             {
-                path: '/home',
-                element: <div className="text-gray-800 dark:text-white">
-                    <h1 className="text-3xl font-bold mb-4">Accueil</h1>
-                    <p className="text-lg">Bienvenue sur notre application de cinéma</p>
-                </div>
+                path: '/',
+                element: <Home />
             },
             {
                 path: '/movies',
                 element: <MoviesList />
-            },
-            {
-                path: '/about',
-                element: <div className="text-gray-800 dark:text-white">
-                    <h1 className="text-3xl font-bold mb-4">À propos</h1>
-                    <p className="text-lg">En savoir plus sur notre application</p>
-                </div>
             },
             {
                 path: '/login',
@@ -38,6 +34,10 @@ export const routes: RouteObject[] = [
                 element: <Register />
             },
             {
+                path: '/backoffice',
+                element: <Dashboard />,
+            },
+            {
                 path: '/seat-selector',
                 element: <SeatSelector />
             },
@@ -45,9 +45,6 @@ export const routes: RouteObject[] = [
                 path: '/movie-detail',
                 element: <MovieDetailsPage />
             },
-            
-
-
         ]
     }
 ];

@@ -1,0 +1,62 @@
+Index: hooks/useAuth.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\r\n// hooks/useAuth.js\r\nimport { useEffect, useState } from \"react\";\r\n\r\nconst useAuth = () => {\r\n    const [isAuthenticated, setIsAuthenticated] = useState(false);\r\n\r\n    useEffect(() => {\r\n        // Vérifier la présence de l'authToken dans localStorage\r\n        const token = localStorage.getItem(\"authToken\");\r\n        if (token) {\r\n            setIsAuthenticated(true);\r\n        }\r\n    }, []);\r\n\r\n    return { isAuthenticated };\r\n};\r\n\r\nexport default useAuth;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/hooks/useAuth.js b/hooks/useAuth.js
+--- a/hooks/useAuth.js	(revision 471200d35ea2f6922d560e3f80fbf24ae53e353e)
++++ b/hooks/useAuth.js	(date 1737372155784)
+@@ -1,19 +1,47 @@
+ "use client";
+-// hooks/useAuth.js
++
+ import { useEffect, useState } from "react";
+ 
+ const useAuth = () => {
+     const [isAuthenticated, setIsAuthenticated] = useState(false);
++    const [user, setUser] = useState(null); // Stocker les informations utilisateur
+ 
++    // Vérification initiale de l'authentification
+     useEffect(() => {
+-        // Vérifier la présence de l'authToken dans localStorage
+         const token = localStorage.getItem("authToken");
+         if (token) {
+-            setIsAuthenticated(true);
++            // Simuler une vérification du token (par exemple, via une API)
++            const userData = parseToken(token); // Fonction pour décoder le token
++            if (userData) {
++                setIsAuthenticated(true);
++                setUser(userData);
++            } else {
++                // Si le token est invalide, le retirer
++                localStorage.removeItem("authToken");
++            }
+         }
+     }, []);
+ 
+-    return { isAuthenticated };
++    // Déconnecter l'utilisateur
++    const logout = () => {
++        localStorage.removeItem("authToken");
++        setIsAuthenticated(false);
++        setUser(null);
++    };
++
++    return { isAuthenticated, user, logout };
++};
++
++// Fonction pour simuler le décodage d'un token
++const parseToken = (token) => {
++    try {
++        // Simuler un décodage du token (exemple simple)
++        const payload = atob(token.split(".")[1]); // Décoder la partie payload du token
++        return JSON.parse(payload);
++    } catch (error) {
++        console.error("Invalid token", error);
++        return null;
++    }
+ };
+ 
+ export default useAuth;
