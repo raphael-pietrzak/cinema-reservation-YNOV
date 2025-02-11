@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 // @ts-ignore
 import axios, { AxiosResponse } from 'axios';
 import {ManageMovieCard} from "../../features/movies-list/components/ManageMovieCard.tsx";
@@ -15,9 +16,9 @@ function ManageMovie() {
         axios.put(`http://localhost:1590/movie/${movie._id}/update`, movie)
             .then((res) => {
                 if (res.status == 200)
-                    alert('Film sauvegardé!');
+                    toast.success('Film sauvegardé!');
                 else
-                    alert('Erreur!');
+                    toast.error('Erreur!');
             });
     };
 
@@ -26,10 +27,10 @@ function ManageMovie() {
             .then((res) => {
                 if (res.status == 200) {
                     fetchMovies();
-                    alert('Film supprimé!');
+                    toast.success('Film supprimé!');
                 }
                 else
-                    alert('Erreur!');
+                    toast.error('Erreur!');
             });
     }
 

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+//@ts-ignore
+import axios, { AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddMovie = () => {
-    const [movie, setMovie] = useState({ title: "", year: "", duration: "", genre: "", image: "" ,Réalisateur:"" });
+    const [movie, setMovie] = useState({ name: "", year: "", duration: "", genre: "", image: "" , director: ""});
     const navigate = useNavigate();
 
     const handleChange = (field: string, value: string | number) => {
@@ -13,7 +15,13 @@ const AddMovie = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Film ajouté :", movie);
+        axios.post(`http://localhost:1590/movie/create`, movie)
+            .then((res) => {
+                if (res.status == 200)
+                    toast.success('Film créé!');
+                else
+                    toast.error('Erreur!');
+            });
         navigate("/backoffice/manage-movie");
         toast.success('Film ajouté avec succès !');
         toast.error('Erreur lors de l\'ajout du film');
@@ -28,7 +36,7 @@ const AddMovie = () => {
                     <input
                         type="text"
                         placeholder="Titre du film"
-                        value={movie.title}
+                        value={movie.name}
                         onChange={(e) => handleChange("title", e.target.value)}
                         className="w-full px-4 py-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-black dark:text-white"
                         required
@@ -75,6 +83,7 @@ const AddMovie = () => {
                     <button
                         type="submit"
                         className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-600 transition"
+                        onSubmit={(e) => handleSubmit(e)}
                     >
                         Ajouter le film
                     </button>
