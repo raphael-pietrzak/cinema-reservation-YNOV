@@ -1,3 +1,4 @@
+# models.py
 from django.db import models
 
 class CinemaSession(models.Model):
@@ -11,3 +12,11 @@ class CinemaSession(models.Model):
 
     def __str__(self):
         return f"{self.film} - Room {self.room} - {self.date} {self.start_time} to {self.end_time}"
+
+class Reservation(models.Model):
+    cinema_session = models.ForeignKey(CinemaSession, on_delete=models.CASCADE, related_name='reservations')
+    user_id = models.PositiveIntegerField()  # ID de l'utilisateur provenant de l'autre API
+    seat_code = models.CharField(max_length=5)  # Code de place (ex. "C1", "E4")
+
+    def __str__(self):
+        return f"Reservation {self.id} - Session: {self.cinema_session.id}, User: {self.user_id}, Seat: {self.seat_code}"
