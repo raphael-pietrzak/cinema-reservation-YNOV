@@ -81,14 +81,19 @@ export function ManageMovieCard({ movie, onSave, onDelete }: ManageMovieCardProp
             </div>
 
             <div className="flex justify-between mt-4">
+                <button
+                    className="text-gray-100 bg-green-600 font-bold  flex justify-around items-center rounded pl-2 pr-2"
+                    onClick={() => onSave(editedMovie)}>
+                    <Save className="w-4 h-4 mr-2"/> Sauvegarder
+                </button>
                 {onDelete && (
-                    <button className="text-gray-100 bg-green-600 font-bold  flex justify-around items-center rounded pl-2 pr-2" variant="destructive" onClick={onDelete}>
-                        <Trash className="w-4 h-4 mr-2" /> Supprimer
+                    <button
+                        className="text-gray-100 bg-red-600 font-bold  flex justify-around items-center rounded pl-2 pr-2"
+                        variant="destructive" onClick={onDelete}>
+                        <Trash className="w-4 h-4 mr-2"/> Supprimer
                     </button>
                 )}
-                <button className="text-gray-100 bg-green-600 font-bold  flex justify-around items-center rounded pl-2 pr-2" onClick={() => onSave(editedMovie)}>
-                    <Save className="w-4 h-4 mr-2" /> Sauvegarder
-                </button>
+
             </div>
         </div>
     );

@@ -1,17 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Menu } from "lucide-react";
 
 const Navbar = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [role, setRole] = useState(localStorage.getItem("role") || "user"); // 🔹 Récupérer le rôle stocké
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
-    document.documentElement.classList.toggle(
-        "dark",
-        localStorage.theme === "dark" ||
-        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
-    );
+    document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
   const toggleTheme = () => {
@@ -19,37 +17,50 @@ const Navbar = () => {
   };
 
   return (
-      <nav className="bg-blue-500 text-white py-4 flex transition-all [data-theme='dark']:bg-gray-900 [data-theme='dark']:text-gray-200">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="space-x-4 flex-1 flex justify-between">
-            <div className="flex-1 flex justify-start gap-8">
-              <Link to="/home" className="text-lg font-semibold opacity-70 transition-opacity hover:opacity-100">
-                Accueil
-              </Link>
-              <Link to="/movies" className="text-lg font-semibold opacity-70 transition-opacity hover:opacity-100">
-                Films
-              </Link>
-              <Link to="/about" className="text-lg font-semibold opacity-70 transition-opacity hover:opacity-100">
-                À propos
-              </Link>
-            </div>
+      <nav className="bg-blue-500 dark:bg-gray-900 shadow-md text-white py-4">
+        <div className="container mx-auto flex justify-between items-center px-6">
 
-            <div className="flex justify-start gap-4 items-center">
-              {/* Toggle Dark Mode */}
-              <button
-                  onClick={toggleTheme}
-                  className="p-2 rounded-full bg-gray-200 text-gray-800 transition-colors [data-theme='dark']:bg-gray-700 [data-theme='dark']:text-gray-200"
-              >
-                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
+          {/* Logo */}
+          <Link to="/" className="text-2xl font-bold tracking-wide">
+            🎬 MovieApp
+          </Link>
 
-              <Link to="/login" className="text-lg font-semibold opacity-70 transition-opacity hover:opacity-100">
-                Connexion
-              </Link>
-              <Link to="/register" className="text-lg font-semibold opacity-70 transition-opacity hover:opacity-100">
-                Inscription
-              </Link>
-            </div>
+          {/* Menu Responsive */}
+          <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden text-white focus:outline-none"
+          >
+            <Menu size={28} />
+          </button>
+
+          {/* Liens */}
+          <div className={`md:flex md:items-center space-x-6 ${isMenuOpen ? "block" : "hidden"} w-full md:w-auto`}>
+            <Link to="/movies" className="hover:text-gray-200 transition">Films</Link>
+            <Link to="/about" className="hover:text-gray-200 transition">À propos</Link>
+            <Link to="/" className="text-2xl font-bold tracking-wide hover:text-gray-300 transition">
+            </Link>
+
+            {/* 🔹 Vérifier si le rôle est admin avant d'afficher "Gestion administrative" */}
+            {role === "admin" && (
+                <Link to="/backoffice" className="text-yellow-400 font-semibold hover:text-yellow-300 transition">
+                  Gestion administrative
+                </Link>
+            )}
+
+            {/* Toggle Dark Mode */}
+            <button
+                onClick={toggleTheme}
+                className="p-2 rounded-full bg-gray-300 dark:bg-gray-700"
+            >
+              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+
+            <Link to="/login" className="bg-white text-blue-500 px-4 py-2 rounded shadow hover:bg-gray-100 transition">
+              Connexion
+            </Link>
+            <Link to="/register" className="bg-yellow-400 text-black px-4 py-2 rounded shadow hover:bg-yellow-500 transition">
+              Inscription
+            </Link>
           </div>
         </div>
       </nav>

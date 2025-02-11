@@ -19,7 +19,7 @@ function ManageUser() {
 
     return (
         <div className="mx-auto min-h-screen py-8 px-4 max-w-6xl">
-            <h1 className="text-3xl font-bold mb-4">Gestion des films</h1>
+            <h1 className="text-3xl font-bold mb-4">Gestion des comptes</h1>
             <div className="flex flex-wrap gap-2">
                 {mockUsers.map(user => (
                     <ManageUserCard

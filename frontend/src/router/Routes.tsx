@@ -43,18 +43,18 @@ export const routes: RouteObject[] = [
                 path: '/backoffice',
                 element: <Dashboard />,
             },
-            {
-                path: '/backoffice/manage-movie',
-                element: <ManageMovie/>,
-            },
-            {
-                path: '/backoffice/manage-session',
-                element: <ManageSession/>,
-            },
-            {
-                path: '/backoffice/manage-user',
-                element: <ManageUser/>,
-            }
+            // {
+            //     path: '/backoffice/manage-movie',
+            //     element: <ManageMovie/>,
+            // },
+            // {
+            //     path: '/backoffice/manage-session',
+            //     element: <ManageSession/>,
+            // },
+            // {
+            //     path: '/backoffice/manage-user',
+            //     element: <ManageUser/>,
+            // }
 
         ]
     }
