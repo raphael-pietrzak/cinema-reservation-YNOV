@@ -31,20 +31,13 @@ npm install
 npm start &
 cd ../..
 
-# Lancer le service Movies
-echo "Installation et lancement du service Movies..."
-cd API/Movies || exit
-npm install
-npm start &
-cd ../..
-
 # Lancer le service Sessions
 echo "Installation de l'environnement virtuel et lancement du service Sessions..."
 cd API/Sessions || exit
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python3 cinema_service/manage.py runserver &
+python3 manage.py runserver &
 cd ../..
 
 echo "Tous les services ont été lancés !"
