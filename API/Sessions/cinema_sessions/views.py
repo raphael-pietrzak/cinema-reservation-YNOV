@@ -17,7 +17,6 @@ class ReservationViewSet(viewsets.ModelViewSet):
     serializer_class = ReservationSerializer
 
     def create(self, request, *args, **kwargs):
-        breakpoint()
         auth_header = request.headers.get('Authorization')
         if not auth_header:
             return Response({"error": "Le token est requis."}, status=status.HTTP_401_UNAUTHORIZED)
