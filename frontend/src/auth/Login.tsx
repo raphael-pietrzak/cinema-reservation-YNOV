@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 import { useAuth } from '../context/AuthContext'
+import { API_URLS } from '../config/api'
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', formData)
+      const response = await axios.post(API_URLS.auth.login, formData)
       login(response.data.token)
       setMessage('Connexion réussie !')
       navigate('/')

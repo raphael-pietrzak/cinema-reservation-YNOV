@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { MovieCard } from '../features/movies-list/components/MovieCard';
 import { Movie } from '../features/movies-list/types/movie';
 import { movies } from '../features/movies-list/data/movies';
+import { API_URLS } from '../config/api';
 
 const Home = () => {
 
@@ -11,7 +12,7 @@ const Home = () => {
 
   const fetchMovies = async () => {
     try {
-      const response: AxiosResponse = await axios.get('http://127.0.0.1:1590/movie');
+      const response: AxiosResponse = await axios.get(API_URLS.movies.getAll);
       const data: Movie[] = response.data;
       setMovies(data);
       setFeatured(data[0]);

@@ -3,13 +3,14 @@ import axios, { AxiosResponse } from 'axios';
 import {ManageMovieCard} from "../../features/movies-list/components/ManageMovieCard.tsx";
 import { movies } from '../../features/movies-list/data/movies.ts';
 import { Movie } from '../../features/movies-list/types/movie.ts';
+import { API_URLS } from '../../config/api';
 
 axios.defaults.headers.common['token'] = "alo";
 axios.defaults.headers.put['Content-Type'] = "application/json";
 
 function ManageMovie() {
     const handleSave = (movie: Movie) => {
-        axios.put(`http://localhost:1590/movie/${movie._id}/update`, movie)
+        axios.put(API_URLS.movies.update(movie._id), movie)
             .then((res) => {
                 if (res.status == 200)
                     alert('Film sauvegardé!');
@@ -19,7 +20,7 @@ function ManageMovie() {
     };
 
     const handleDelete = (movie: Movie) => {
-        axios.delete(`http://localhost:1590/movie/${movie._id}/delete`)
+        axios.delete(API_URLS.movies.delete(movie._id))
             .then((res) => {
                 if (res.status == 200) {
                     fetchMovies();
@@ -34,7 +35,7 @@ function ManageMovie() {
 
     const fetchMovies = async () => {
         try {
-            const response: AxiosResponse = await axios.get('http://127.0.0.1:1590/movie');
+            const response: AxiosResponse = await axios.get(API_URLS.movies.getAll);
             const data: Movie[] = response.data;
             setMovies(data);
         } catch (error) {
