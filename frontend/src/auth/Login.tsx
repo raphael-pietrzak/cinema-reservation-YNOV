@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
+import { useAuth } from '../context/AuthContext'
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const Login: React.FC = () => {
   })
   const [message, setMessage] = useState('')
   const navigate = useNavigate()
+  const { login } = useAuth()
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -18,7 +20,7 @@ const Login: React.FC = () => {
     e.preventDefault()
     try {
       const response = await axios.post('http://localhost:3000/auth/login', formData)
-      localStorage.setItem('token', response.data.token)
+      login(response.data.token)
       setMessage('Connexion réussie !')
       navigate('/')
     } catch (error: any) {
