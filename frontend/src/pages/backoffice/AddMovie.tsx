@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddMovie = () => {
-    const [movie, setMovie] = useState({ title: "", year: "", duration: "", genre: "", image: "" });
+    const [movie, setMovie] = useState({ title: "", year: "", duration: "", genre: "", image: "" ,Réalisateur:"" });
     const navigate = useNavigate();
 
     const handleChange = (field: string, value: string | number) => {
@@ -32,6 +32,13 @@ const AddMovie = () => {
                         onChange={(e) => handleChange("title", e.target.value)}
                         className="w-full px-4 py-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-black dark:text-white"
                         required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Réalisateur"
+                        value={movie.image}
+                        onChange={(e) => handleChange("réalisateur", e.target.value)}
+                        className="w-full px-4 py-2 border rounded-lg bg-gray-100 dark:bg-gray-700 text-black dark:text-white"
                     />
                     <input
                         type="text"
