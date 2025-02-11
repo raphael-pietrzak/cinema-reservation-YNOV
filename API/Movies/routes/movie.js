@@ -8,16 +8,13 @@ function get_acl(token, callback) {
     let body = {
         token: token
     }
-    callback("admin");
     
-    /*
-    fetch(UserURL, body)
+    fetch("localhost:3000/verify-token", body)
         .then((res) => res.json())
         .then((json) => {
             if (json.role) callback(role)
             else return null
         })
-    */
 }
 
 // GET movie by Query

@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 //@ts-ignore
 import axios, { AxiosResponse } from 'axios';
-import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../../context/AuthContext.tsx';
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddMovie = () => {
     const [movie, setMovie] = useState({ name: "", year: "", duration: "", genre: "", image: "" , director: ""});
@@ -15,19 +16,22 @@ const AddMovie = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        axios.post(`http://localhost:1590/movie/create`, movie)
+        axios.post(`http://localhost:1590/movie/create`, movie, {headers: {token: useAuth().token}})
             .then((res) => {
-                console.log(res.status)
                 if (res.status == 201)
-                    toast.success('Film créé!');
+                    setTimeout(toast.success, 1500, "Film créé avec succès!");
                 else
-                    toast.error('Erreur!');
-            });
+                    setTimeout(toast.success, 1500, "Film créé avec succès!");
+            }) 
+            .catch(() => {
+                setTimeout(toast.error, 1500, "Erreur!");
+            })
         navigate("/backoffice");
     };
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
+            <ToastContainer position="top-right" autoClose={3000} />
             <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-3xl font-bold text-center text-blue-500 dark:text-white mb-6">Ajouter un film</h2>
 
@@ -88,17 +92,6 @@ const AddMovie = () => {
                     </button>
                 </form>
             </div>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick={false}
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
         </div>
     );
 };

@@ -1,6 +1,6 @@
 const AUTH_BASE_URL = 'http://localhost:3000';
-const MOVIES_BASE_URL = 'http://localhost:8000';
-const SESSIONS_BASE_URL = 'http://localhost:1590';
+const MOVIES_BASE_URL = 'http://localhost:1590';
+const SESSIONS_BASE_URL = 'http://localhost:8000';
 
 export const API_URLS = {
     auth: {

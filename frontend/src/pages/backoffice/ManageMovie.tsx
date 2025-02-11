@@ -1,22 +1,21 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 // @ts-ignore
 import axios, { AxiosResponse } from 'axios';
 import {ManageMovieCard} from "../../features/movies-list/components/ManageMovieCard.tsx";
 import { movies } from '../../features/movies-list/data/movies.ts';
 import { Movie } from '../../features/movies-list/types/movie.ts';
 import { API_URLS } from '../../config/api';
+import { useAuth } from '../../context/AuthContext.tsx';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-axios.defaults.headers.common['token'] = "alo";
 axios.defaults.headers.put['Content-Type'] = "application/json";
 
 function ManageMovie() {
     const handleSave = (movie: Movie) => {
-        axios.put(API_URLS.movies.update(movie._id), movie)
+        axios.put(API_URLS.movies.update(movie._id), movie, {headers: {token: useAuth().token}})
             .then((res) => {
                 if (res.status == 200)
                     toast.success('Film sauvegardé avec succès!');
@@ -29,7 +28,7 @@ function ManageMovie() {
     };
 
     const handleDelete = (movie: Movie) => {
-        axios.delete(API_URLS.movies.delete(movie._id))
+        axios.delete(API_URLS.movies.delete(movie._id), {headers: {token: useAuth().token}})
             .then((res) => {
                 if (res.status == 200) {
                     fetchMovies();
