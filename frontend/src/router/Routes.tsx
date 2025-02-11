@@ -3,6 +3,8 @@ import App from '../App';
 import Login from '../auth/Login';
 import Register from '../auth/Register';
 import MoviesList from '../pages/MoviesList';
+import SeatSelector from '../components/SeatSelector';
+import MovieDetailsPage from '../pages/MovieDetailsPage';
 
 export const routes: RouteObject[] = [
     {
@@ -34,7 +36,17 @@ export const routes: RouteObject[] = [
             {
                 path: '/register',
                 element: <Register />
-            }
+            },
+            {
+                path: '/seat-selector',
+                element: <SeatSelector />
+            },
+            {
+                path: '/movie-detail',
+                element: <MovieDetailsPage />
+            },
+            
+
 
         ]
     }

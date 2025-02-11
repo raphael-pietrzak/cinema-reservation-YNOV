@@ -17,6 +17,18 @@ const Navbar = () => {
           <Link to="/about" className="hover:underline">
             À propos
           </Link>
+          <Link to="/login" className="hover:underline">
+            Connexion
+          </Link>
+          <Link to="/register" className="hover:underline">
+            Inscription
+          </Link>
+          <Link to="/movie-detail" className="hover:underline">
+            Movie Details
+          </Link>
+          <Link to="/seat-selector" className="hover:underline">
+            Réserver un siège
+          </Link>
         </div>
       </div>
     </nav>
