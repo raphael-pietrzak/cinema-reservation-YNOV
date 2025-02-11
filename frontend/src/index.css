@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.custom-flex-third-container {
+    flex: 0 32%;
+}

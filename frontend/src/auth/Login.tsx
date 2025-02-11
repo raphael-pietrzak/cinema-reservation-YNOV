@@ -28,12 +28,12 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded shadow">
+    <div className="flex justify-center items-center min-h-screen dark:text-gray-900 text-gray-100">
+      <div className="w-full max-w-md p-8 bg-gray-900 dark:bg-white rounded shadow">
         <h1 className="text-2xl font-bold mb-6 text-center">Connexion</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-200 dark:text-gray-800">
               Email
             </label>
             <input
@@ -42,12 +42,12 @@ const Login: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={onChange}
-              className="mt-1 block w-full border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm px-1 text-gray-900"
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-200 dark:text-gray-800">
               Mot de passe
             </label>
             <input
@@ -56,7 +56,7 @@ const Login: React.FC = () => {
               name="password"
               value={formData.password}
               onChange={onChange}
-              className="mt-1 block w-full border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500 px-1 text-gray-900"
               required
             />
           </div>
