@@ -16,7 +16,8 @@ class CinemaSession(models.Model):
 class Reservation(models.Model):
     cinema_session = models.ForeignKey(CinemaSession, on_delete=models.CASCADE, related_name='reservations')
     user_id = models.PositiveIntegerField()  # ID de l'utilisateur provenant de l'autre API
-    seat_code = models.CharField(max_length=5)  # Code de place (ex. "C1", "E4")
+    seat_codes = models.JSONField(default=list)  # Liste des codes de sièges réservés (ex: ["C1", "E4"])
 
     def __str__(self):
-        return f"Reservation {self.id} - Session: {self.cinema_session.id}, User: {self.user_id}, Seat: {self.seat_code}"
+        # On joint les codes avec une virgule pour l'affichage
+        return f"Reservation {self.id} - Session: {self.cinema_session.id}, User: {self.user_id}, Seats: {', '.join(self.seat_codes)}"

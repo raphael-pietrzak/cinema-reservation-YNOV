@@ -1,3 +1,4 @@
+// src/features/movies-list/components/MovieCard.tsx
 import React from 'react';
 import { Star, Clock, Calendar } from 'lucide-react';
 import { Movie } from '../types/movie';
@@ -9,14 +10,16 @@ interface MovieCardProps {
 
 export function MovieCard({ movie, onClick }: MovieCardProps) {
   return (
-    <div 
+    <div
       onClick={onClick}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onClick()}
       className="bg-gray-900 text-gray-100 cursor-pointer
       dark:bg-white
-      rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-105">
+      rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-105"
+        /*className="bg-gray-900 text-gray-100 dark:bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-105 cursor-pointer"*/
+    >
       <div className="h-48 overflow-hidden">
         <img 
           src={movie.image || "public/placeholder.png"} 

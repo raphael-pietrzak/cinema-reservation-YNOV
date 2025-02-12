@@ -1,39 +1,94 @@
-import React, { useState } from 'react';
-import { Calendar, Clock, Star, Users, Film, ThumbsUp, Timer } from 'lucide-react';
+// src/pages/MovieDetailsPage.tsx
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Calendar, Clock, Star, Film, Timer, Users, ThumbsUp } from 'lucide-react';
+import axios, { AxiosResponse } from 'axios';
+import { API_URLS } from '../config/api';
 
-// Mock data - in a real app this would come from an API
-const movie = {
-  title: "Dune: Part Two",
-  rating: 8.7,
-  duration: "166",
-  genre: "Science Fiction",
-  director: "Denis Villeneuve",
-  image: "https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2?auto=format&fit=crop&q=80&w=1200",
-  description: "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family.",
-  sessions: [
-    { id: 1, time: "14:30", date: "2024-03-15", room: "IMAX 1", seatsAvailable: 45 },
-    { id: 2, time: "17:45", date: "2024-03-15", room: "Room 3", seatsAvailable: 28 },
-    { id: 3, time: "20:15", date: "2024-03-15", room: "IMAX 1", seatsAvailable: 52 },
-  ]
-};
+interface Session {
+  id: number;
+  film: string;
+  room: string;
+  date: string;
+  start_time: string;
+  end_time: string;
+  total_seats: number;
+  available_seats: number;
+}
+
+interface Movie {
+  id: number;
+  name: string;
+  image: string;
+  year: string;
+  rating: number;
+  duration: string;
+  genre: string;
+  director: string;
+  description: string;
+  sessions: Session[];
+}
 
 function MovieDetailsPage() {
-  const [selectedSession, setSelectedSession] = useState(null);
+  const { filmId } = useParams<{ filmId: string }>();
+  const navigate = useNavigate();
+  const [movie, setMovie] = useState<Movie | null>(null);
+  const [selectedSession, setSelectedSession] = useState<number | null>(null);
+
+  // Récupération du film depuis l'API movies
+  useEffect(() => {
+    if (filmId) {
+      axios.get(API_URLS.movies.getOne(filmId))
+        .then((response: AxiosResponse<Movie>) => {
+          const movieData = response.data;
+          // Si l'API movies ne renvoie pas la propriété sessions, on l'initialise à []
+          movieData.sessions = movieData.sessions || [];
+          setMovie(movieData);
+        })
+        .catch(error => {
+          console.error("Erreur lors de la récupération du film :", error);
+        });
+    }
+  }, [filmId]);
+
+  // Récupération des séances depuis l'API Django et filtrage par le nom du film
+  useEffect(() => {
+    if (movie) {
+      axios.get(API_URLS.sessions.getAll)
+        .then((response: AxiosResponse<Session[]>) => {
+          const allSessions = response.data;
+          // On filtre les séances dont le champ "film" correspond exactement au nom du film
+          const filmSessions = allSessions.filter((session: Session) => session.film === movie.name);
+          setMovie(prevMovie => prevMovie ? { ...prevMovie, sessions: filmSessions } : prevMovie);
+        })
+        .catch(error => {
+          console.error("Erreur lors de la récupération des séances :", error);
+        });
+    }
+  }, [movie]);
+
+  const handleBookTickets = () => {
+    if (selectedSession) {
+      navigate(`/seat-selector/${selectedSession}`);
+    }
+  };
+
+  if (!movie) {
+    return <div>Chargement...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Hero Section with Movie Poster */}
+      {/* Section Hero avec l'affiche du film */}
       <div className="relative h-[60vh] w-full">
-        <div className="absolute inset-0">
-          <img 
-            src={movie.image} 
-            alt={movie.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-transparent" />
-        </div>
+        <img 
+          src={movie.image} 
+          alt={movie.name}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-          <h1 className="text-4xl font-bold mb-2">{movie.title}</h1>
+          <h1 className="text-4xl font-bold mb-2">{movie.name}</h1>
           <div className="flex items-center gap-4 text-gray-200">
             <span className="flex items-center gap-1">
               <Star className="w-5 h-5 text-yellow-400" />
@@ -51,10 +106,9 @@ function MovieDetailsPage() {
         </div>
       </div>
 
-      {/* Movie Details */}
+      {/* Détails du film */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid md:grid-cols-3 gap-8">
-          {/* Movie Information */}
           <div className="md:col-span-2 space-y-6">
             <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-2xl font-semibold mb-4">Synopsis</h2>
@@ -72,12 +126,12 @@ function MovieDetailsPage() {
             </div>
           </div>
 
-          {/* Showtimes */}
+          {/* Liste des séances disponibles */}
           <div className="md:col-span-1">
             <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-2xl font-semibold mb-4">Available Sessions</h2>
               <div className="space-y-4">
-                {movie.sessions.map((session) => (
+                {(movie.sessions || []).map((session: Session) => (
                   <div 
                     key={session.id}
                     className={`p-4 border rounded-lg cursor-pointer transition-colors ${
@@ -94,12 +148,12 @@ function MovieDetailsPage() {
                       </div>
                       <div className="flex items-center gap-3">
                         <Clock className="w-5 h-5 text-gray-500" />
-                        <span>{session.time}</span>
+                        <span>{session.start_time}</span>
                       </div>
                     </div>
                     <div className="mt-2 flex justify-between items-center text-sm text-gray-600">
                       <span>{session.room}</span>
-                      <span>{session.seatsAvailable} seats available</span>
+                      <span>{session.available_seats} seats available</span>
                     </div>
                   </div>
                 ))}
@@ -107,10 +161,11 @@ function MovieDetailsPage() {
               <button 
                 className={`w-full mt-6 py-3 px-4 rounded-lg font-semibold transition-colors ${
                   selectedSession 
-                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                    ? 'bg-primary text-white hover:bg-blue-700' 
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
                 disabled={!selectedSession}
+                onClick={handleBookTickets}
               >
                 Book Tickets
               </button>

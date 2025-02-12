@@ -3,53 +3,36 @@ import App from '../App';
 import Login from '../auth/Login';
 import Register from '../auth/Register';
 import MoviesList from '../pages/MoviesList';
-import Home from "../pages/Home.tsx";
-import About from "../pages/About.tsx";
-import Dashboard from "../pages/backoffice/Dashboard.tsx";
-import ManageMovie from "../pages/backoffice/ManageMovie.tsx";
-import ManageSession from "../pages/backoffice/ManageSession.tsx";
-import ManageUser from "../pages/backoffice/ManageUser.tsx";
-import SeatSelector from '../components/SeatSelector';
+import Home from "../pages/Home";
+import About from "../pages/About";
+import Dashboard from "../pages/backoffice/Dashboard";
+import SeatSelectorPage from '../pages/SeatSelectorPage';
 import MovieDetailsPage from '../pages/MovieDetailsPage';
-import MovieDetails from '../pages/MovieDetails';
+import AddMovie from "../pages/backoffice/AddMovie.tsx";
+import ProtectedRoute from '../components/ProtectedRoute';
 
 export const routes: RouteObject[] = [
     {
         path: '/',
         element: <App />,
         children: [
-            {
-                path: '/',
-                element: <Home />
+            { path: '/', element: <Home /> },
+            { path: '/movies', element: <MoviesList /> },
+            { path: '/login', element: <Login /> },
+            { path: '/register', element: <Register /> },
+            { 
+                path: '/backoffice', 
+                element: <ProtectedRoute adminOnly={true}><Dashboard /></ProtectedRoute> 
             },
-            {
-                path: '/movies',
-                element: <MoviesList />
+            { 
+                path: '/backoffice/add-movie', 
+                element: <ProtectedRoute adminOnly={true}><AddMovie /></ProtectedRoute> 
             },
-            {
-                path: '/login',
-                element: <Login />
-            },
-            {
-                path: '/register',
-                element: <Register />
-            },
-            {
-                path: '/backoffice',
-                element: <Dashboard />,
-            },
-            {
-                path: '/seat-selector',
-                element: <SeatSelector />
-            },
-            {
-                path: '/movie-detail',
-                element: <MovieDetailsPage />
-            },
-            {
-                path: '/movie/:id',
-                element: <MovieDetails />
-            },
+            // Route pour les détails d'un film, avec filmId en paramètre
+            { path: '/movie-detail/:filmId', element: <MovieDetailsPage /> },
+            // Route pour la sélection de sièges, avec sessionId en paramètre
+            { path: '/seat-selector/:sessionId', element: <SeatSelectorPage /> },
+            { path: '/about', element: <About /> },
         ]
     }
 ];
