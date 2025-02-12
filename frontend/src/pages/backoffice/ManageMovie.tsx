@@ -4,6 +4,8 @@ import {ManageMovieCard} from "../../features/movies-list/components/ManageMovie
 import { movies } from '../../features/movies-list/data/movies.ts';
 import { Movie } from '../../features/movies-list/types/movie.ts';
 import { API_URLS } from '../../config/api';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 axios.defaults.headers.common['token'] = "alo";
 axios.defaults.headers.put['Content-Type'] = "application/json";
@@ -13,9 +15,12 @@ function ManageMovie() {
         axios.put(API_URLS.movies.update(movie._id), movie)
             .then((res) => {
                 if (res.status == 200)
-                    alert('Film sauvegardé!');
+                    toast.success('Film sauvegardé avec succès!');
                 else
-                    alert('Erreur!');
+                    toast.error('Une erreur est survenue lors de la sauvegarde!');
+            })
+            .catch((error) => {
+                toast.error('Une erreur est survenue: ' + error.message);
             });
     };
 
@@ -24,10 +29,13 @@ function ManageMovie() {
             .then((res) => {
                 if (res.status == 200) {
                     fetchMovies();
-                    alert('Film supprimé!');
+                    toast.success('Film supprimé avec succès!');
                 }
                 else
-                    alert('Erreur!');
+                    toast.error('Une erreur est survenue lors de la suppression!');
+            })
+            .catch((error) => {
+                toast.error('Une erreur est survenue: ' + error.message);
             });
     }
 
@@ -49,6 +57,7 @@ function ManageMovie() {
 
     return (
         <div className="mx-auto min-h-screen py-8 px-4 max-w-6xl">
+            <ToastContainer position="top-right" autoClose={3000} />
             <h1 className="text-3xl font-bold mb-4">Gestion des films</h1>
             <div className="flex flex-wrap gap-2">
                 {moviesList.map(movie => (
