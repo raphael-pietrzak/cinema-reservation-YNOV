@@ -10,19 +10,21 @@ interface MovieCardProps {
 
 export function MovieCard({ movie, onClick }: MovieCardProps) {
   return (
-    <div 
+    <div
       onClick={onClick}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onClick()}
       className="bg-gray-900 text-gray-100 cursor-pointer
       dark:bg-white
-      rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-105">
+      rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-105"
+        /*className="bg-gray-900 text-gray-100 dark:bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform hover:scale-105 cursor-pointer"*/
+    >
       <div className="h-48 overflow-hidden">
         <img 
           src={movie.image || "public/placeholder.png"} 
           alt={movie.name}
-          className="w-full h-full object-cover" 
+          className="w-full h-full object-cover"
         />
       </div>
       <div className="p-6">

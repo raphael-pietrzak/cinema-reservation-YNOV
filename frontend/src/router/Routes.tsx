@@ -9,6 +9,8 @@ import Dashboard from "../pages/backoffice/Dashboard";
 import SeatSelectorPage from '../pages/SeatSelectorPage';
 import MovieDetailsPage from '../pages/MovieDetailsPage';
 import AddMovie from "../pages/backoffice/AddMovie.tsx";
+import MovieDetails from '../pages/MovieDetails';
+import SeatSelector from "../components/SeatSelector.tsx";
 
 export const routes: RouteObject[] = [
     {

@@ -15,7 +15,7 @@ export function GenreFilter({ genres, selectedGenre, onGenreSelect }: GenreFilte
           onClick={() => onGenreSelect(genre)}
           className={`px-4 py-2 rounded-full text-sm font-medium transition-colors
             ${selectedGenre === genre 
-              ? 'bg-blue-600 text-white' 
+              ? 'bg-primary text-white' 
               : 'bg-white text-gray-700 hover:bg-gray-50'}`}
         >
           {genre}
