@@ -36,9 +36,9 @@ function MoviesList() {
     ? moviesList
     : moviesList.filter(movie => movie.genre === selectedGenre);
 
-  const handleMovieClick = (movie: Movie) => {
-    const id = movie._id || movie.id;
-    navigate(`/movie-detail/${id}`);
+  const handleMovieClick = (movieId: number) => {
+    console.log('Navigating to movie:', movieId); // Pour le débogage
+    navigate(`/movie/${movieId}`, { replace: false });
   };
 
   return (

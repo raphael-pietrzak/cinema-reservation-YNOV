@@ -11,22 +11,45 @@ import ManageSession from "../pages/backoffice/ManageSession";
 import ManageUser from "../pages/backoffice/ManageUser";
 import SeatSelectorPage from '../pages/SeatSelectorPage';
 import MovieDetailsPage from '../pages/MovieDetailsPage';
+import MovieDetails from '../pages/MovieDetails';
 
 export const routes: RouteObject[] = [
     {
         path: '/',
         element: <App />,
         children: [
-            { path: '/', element: <Home /> },
-            { path: '/movies', element: <MoviesList /> },
-            { path: '/login', element: <Login /> },
-            { path: '/register', element: <Register /> },
-            { path: '/backoffice', element: <Dashboard /> },
-            // Route pour les détails d'un film, avec filmId en paramètre
-            { path: '/movie-detail/:filmId', element: <MovieDetailsPage /> },
-            // Route pour la sélection de sièges, avec sessionId en paramètre
-            { path: '/seat-selector/:sessionId', element: <SeatSelectorPage /> },
-            { path: '/about', element: <About /> },
+            {
+                path: '/',
+                element: <Home />
+            },
+            {
+                path: '/movies',
+                element: <MoviesList />
+            },
+            {
+                path: '/login',
+                element: <Login />
+            },
+            {
+                path: '/register',
+                element: <Register />
+            },
+            {
+                path: '/backoffice',
+                element: <Dashboard />,
+            },
+            {
+                path: '/seat-selector',
+                element: <SeatSelector />
+            },
+            {
+                path: '/movie-detail',
+                element: <MovieDetailsPage />
+            },
+            {
+                path: '/movie/:id',
+                element: <MovieDetails />
+            },
         ]
     }
 ];
