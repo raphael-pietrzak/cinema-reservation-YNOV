@@ -16,27 +16,27 @@ export function ManageUserCard({ user, onSave }: ManageUserCardProps) {
     };
 
   return (
-    <div className="bg-gray-900 text-gray-100 dark:bg-white rounded-xl shadow-lg p-6 w-96 text-gray-900 custom-flex-third-container">
-      <div className="flex flex-col gap-4">
-        <label className="text-gray-700 text-lg">Nom d'utilisateur</label>
-        <input
-          className="bg-gray-200 pl-2 pr-2 rounded"
+      <div className="bg-gray-100 text-gray-100 dark:bg-gray-900 rounded-xl shadow-lg p-6 w-96 custom-flex-third-container">
+              <div className="flex flex-col gap-4">
+              <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">Nom d'utilisateur</label>
+              <input
+                  className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
           type="text"
           value={editedUser.username}
           onChange={(e) => handleChange('username', e.target.value)}
         />
 
-        <label className="text-gray-700 text-lg">Email</label>
+        <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">Email</label>
         <input
-          className="bg-gray-200 pl-2 pr-2 rounded"
+            className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
           type="email"
           value={editedUser.email}
           onChange={(e) => handleChange('email', e.target.value)}
         />
 
-        <label className="text-gray-700 text-lg">Mot de passe</label>
+        <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">Mot de passe</label>
         <input
-          className="bg-gray-200 pl-2 pr-2 rounded"
+            className="mt-1 block w-full border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
           type="password"
           value={editedUser.password}
           onChange={(e) => handleChange('password', e.target.value)}
@@ -44,20 +44,22 @@ export function ManageUserCard({ user, onSave }: ManageUserCardProps) {
 
         <div className="flex items-center gap-2">
           <input
-            className="bg-gray-200 pl-2 pr-2 rounded"
+              className="block border-gray-400 dark:border-gray-600 rounded shadow-sm focus:ring-primary focus:border-primary px-1 text-gray-900 dark:text-gray-100 bg-gray-200 dark:bg-gray-700"
             type="checkbox"
             checked={editedUser.isAdmin}
             onChange={(e) => handleChange('isAdmin', e.target.checked)}
           />
-          <label className="text-gray-700 text-lg">Administrateur</label>
+          <label className="block text-sm font-medium text-gray-800 dark:text-gray-200">Administrateur</label>
         </div>
       </div>
 
-      <div className="flex justify-end mt-4">
-        <button onClick={() => onSave(editedUser)} className="bg-blue-500 text-white px-4 py-2 rounded">
-          <Save className="w-4 h-4 mr-2 inline" /> Sauvegarder
-        </button>
+          <div className="flex justify-end mt-4">
+
+              <button
+                  className="font-bold text-green-500 flex justify-around items-center rounded pl-2 pr-2 text-xl">
+                  <Save/>
+              </button>
+          </div>
       </div>
-    </div>
   );
 }

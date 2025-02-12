@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 // @ts-ignore
 import axios, { AxiosResponse } from 'axios';
 import {ManageMovieCard} from "../../features/movies-list/components/ManageMovieCard.tsx";
-import { movies } from '../../features/movies-list/data/movies.ts';
 import { Movie } from '../../features/movies-list/types/movie.ts';
 import { API_URLS } from '../../config/api';
 import { useAuth } from '../../context/AuthContext.tsx';
@@ -47,7 +46,7 @@ function ManageMovie() {
             });
     }
 
-    const [moviesList, setMovies] = useState<Movie[]>(movies);
+    const [moviesList, setMovies] = useState<Movie[]>([]);
 
     const fetchMovies = async () => {
         try {
@@ -70,7 +69,7 @@ function ManageMovie() {
             <ToastContainer position="top-right" autoClose={3000} />
             <h1 className="text-3xl font-bold mb-4">Gestion des films</h1>
             <button
-                className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600 transition"
+                className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-primary transition mb-2"
                 onClick={() => navigate("/backoffice/add-movie")}
             >
                 Ajouter un film
