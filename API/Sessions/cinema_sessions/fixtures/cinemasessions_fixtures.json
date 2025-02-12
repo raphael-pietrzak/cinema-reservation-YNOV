@@ -1,0 +1,236 @@
+[
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 1,
+      "fields": {
+        "film": "Sonic the Hedgehog 2",
+        "room": "Salle 1",
+        "date": "2024-03-15",
+        "start_time": "14:30:00",
+        "end_time": "16:30:00",
+        "total_seats": 100,
+        "available_seats": 80
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 10,
+      "fields": {
+        "film": "Sonic the Hedgehog 2",
+        "room": "Salle 1",
+        "date": "2024-03-15",
+        "start_time": "18:30:00",
+        "end_time": "20:30:00",
+        "total_seats": 100,
+        "available_seats": 80
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 2,
+      "fields": {
+        "film": "Sonic the Hedgehog 3",
+        "room": "Salle 2",
+        "date": "2024-03-15",
+        "start_time": "17:00:00",
+        "end_time": "19:00:00",
+        "total_seats": 120,
+        "available_seats": 110
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 11,
+      "fields": {
+        "film": "Sonic the Hedgehog 3",
+        "room": "Salle 2",
+        "date": "2024-03-15",
+        "start_time": "20:00:00",
+        "end_time": "22:00:00",
+        "total_seats": 120,
+        "available_seats": 110
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 3,
+      "fields": {
+        "film": "Spirited Away",
+        "room": "Salle 3",
+        "date": "2024-03-16",
+        "start_time": "15:00:00",
+        "end_time": "17:00:00",
+        "total_seats": 90,
+        "available_seats": 90
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 12,
+      "fields": {
+        "film": "Spirited Away",
+        "room": "Salle 3",
+        "date": "2024-03-16",
+        "start_time": "18:00:00",
+        "end_time": "20:00:00",
+        "total_seats": 90,
+        "available_seats": 90
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 4,
+      "fields": {
+        "film": "Pulp Fiction",
+        "room": "Salle 4",
+        "date": "2024-03-16",
+        "start_time": "20:00:00",
+        "end_time": "22:00:00",
+        "total_seats": 100,
+        "available_seats": 95
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 13,
+      "fields": {
+        "film": "Pulp Fiction",
+        "room": "Salle 4",
+        "date": "2024-03-16",
+        "start_time": "22:30:00",
+        "end_time": "00:30:00",
+        "total_seats": 100,
+        "available_seats": 95
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 5,
+      "fields": {
+        "film": "Interstellar",
+        "room": "Salle 1",
+        "date": "2024-03-17",
+        "start_time": "18:30:00",
+        "end_time": "21:00:00",
+        "total_seats": 150,
+        "available_seats": 150
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 14,
+      "fields": {
+        "film": "Interstellar",
+        "room": "Salle 1",
+        "date": "2024-03-17",
+        "start_time": "21:30:00",
+        "end_time": "00:00:00",
+        "total_seats": 150,
+        "available_seats": 150
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 6,
+      "fields": {
+        "film": "Back to the Future",
+        "room": "Salle 2",
+        "date": "2024-03-17",
+        "start_time": "16:00:00",
+        "end_time": "18:00:00",
+        "total_seats": 100,
+        "available_seats": 85
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 15,
+      "fields": {
+        "film": "Back to the Future",
+        "room": "Salle 2",
+        "date": "2024-03-17",
+        "start_time": "19:00:00",
+        "end_time": "21:00:00",
+        "total_seats": 100,
+        "available_seats": 85
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 7,
+      "fields": {
+        "film": "Intouchables",
+        "room": "Salle 3",
+        "date": "2024-03-18",
+        "start_time": "14:00:00",
+        "end_time": "16:00:00",
+        "total_seats": 80,
+        "available_seats": 80
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 16,
+      "fields": {
+        "film": "Intouchables",
+        "room": "Salle 3",
+        "date": "2024-03-18",
+        "start_time": "17:00:00",
+        "end_time": "19:00:00",
+        "total_seats": 80,
+        "available_seats": 80
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 8,
+      "fields": {
+        "film": "The Matrix",
+        "room": "Salle 1",
+        "date": "2024-03-18",
+        "start_time": "20:30:00",
+        "end_time": "22:30:00",
+        "total_seats": 100,
+        "available_seats": 100
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 17,
+      "fields": {
+        "film": "The Matrix",
+        "room": "Salle 1",
+        "date": "2024-03-18",
+        "start_time": "23:00:00",
+        "end_time": "01:00:00",
+        "total_seats": 100,
+        "available_seats": 100
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 9,
+      "fields": {
+        "film": "Coucou",
+        "room": "Salle 4",
+        "date": "2024-03-19",
+        "start_time": "12:00:00",
+        "end_time": "14:00:00",
+        "total_seats": 50,
+        "available_seats": 50
+      }
+    },
+    {
+      "model": "cinema_sessions.cinemasession",
+      "pk": 18,
+      "fields": {
+        "film": "Coucou",
+        "room": "Salle 4",
+        "date": "2024-03-19",
+        "start_time": "15:00:00",
+        "end_time": "17:00:00",
+        "total_seats": 50,
+        "available_seats": 50
+      }
+    }
+]  
