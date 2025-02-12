@@ -7,7 +7,7 @@ const userController = {
     register: async (req, res) => {
         console.log('register');
         try {
-            const { username, email, password } = req.body;
+            const { username, email, password, role = 'user' } = req.body;
 
             // Vérifier si l'email existe déjà
             const existingUser = await knex('users').where({ email }).first();
@@ -27,9 +27,10 @@ const userController = {
                 .insert({
                     username,
                     email,
-                    password: hashedPassword
+                    password: hashedPassword,
+                    role
                 })
-                .returning(['id', 'username', 'email']);
+                .returning(['id', 'username', 'email', 'role']);
 
             res.status(201).json(user);
         } catch (error) {
@@ -53,12 +54,20 @@ const userController = {
             }
 
             const token = jwt.sign(
-                { userId: user.id },
+                { userId: user.id, role: user.role },
                 'votre_secret_jwt',
                 { expiresIn: '24h' }
             );
 
-            res.json({ token, user: { id: user.id, username: user.username, email: user.email } });
+            res.json({ 
+                token, 
+                user: { 
+                    id: user.id, 
+                    username: user.username, 
+                    email: user.email,
+                    role: user.role 
+                } 
+            });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -68,7 +77,7 @@ const userController = {
         try {
             const user = await knex('users')
                 .where({ id: req.userData.userId })
-                .select('id', 'username', 'email')
+                .select('id', 'username', 'email', 'role')
                 .first();
             
             if (!user) {
@@ -76,6 +85,18 @@ const userController = {
             }
             
             res.json(user);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
+    getAllUsers: async (req, res) => {
+        try {
+            const users = await knex('users')
+                .select('id', 'username', 'email', 'role')
+                .orderBy('id');
+            
+            res.json(users);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
