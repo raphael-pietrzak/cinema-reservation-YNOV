@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 // @ts-ignore
 import axios, { AxiosResponse } from 'axios';
 import {ManageMovieCard} from "../../features/movies-list/components/ManageMovieCard.tsx";
-import { movies } from '../../features/movies-list/data/movies.ts';
 import { Movie } from '../../features/movies-list/types/movie.ts';
 import { API_URLS } from '../../config/api';
 import { useAuth } from '../../context/AuthContext.tsx';
@@ -47,7 +46,7 @@ function ManageMovie() {
             });
     }
 
-    const [moviesList, setMovies] = useState<Movie[]>(movies);
+    const [moviesList, setMovies] = useState<Movie[]>([]);
 
     const fetchMovies = async () => {
         try {
