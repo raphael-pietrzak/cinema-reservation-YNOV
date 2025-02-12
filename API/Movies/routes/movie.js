@@ -5,17 +5,25 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 var router = express.Router();
 
 function get_acl(token, callback) {
-    let body = {
-        token: token
-    }
-    
-    fetch("localhost:3000/verify-token", body)
-        .then((res) => res.json())
-        .then((json) => {
-            if (json.role) callback(role)
-            else return null
-        })
-        .catch((err) => console.log(err))
+    fetch("http://localhost:3000/verify-token", {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then((res) => res.json())
+    .then((json) => {
+        if (json.valid && json.role) {
+            callback(json.role);
+        } else {
+            callback(null);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+        callback(null);
+    });
 }
 
 // GET movie by Query
