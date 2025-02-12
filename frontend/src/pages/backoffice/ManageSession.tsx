@@ -1,42 +1,105 @@
-import {ManageSessionCard} from "../../features/movies-list/components/ManageSessionCard.tsx";
-import {Session} from "../../features/movies-list/types/session.ts";
-import {Movie} from "../../features/movies-list/types/movie.ts";
+import React, { useState, useEffect } from 'react';
+import { ManageSessionCard, Session } from "../../features/movies-list/components/ManageSessionCard";
+import { Movie } from "../../features/movies-list/types/movie";
+import { API_URLS } from '../../config/api'; 
 
 function ManageSession() {
-    const handleSave = (movie: Movie) => {
-        console.log('Film sauvegardé :', movie);
-    };
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [sessions, setSessions] = useState<Session[]>([]);
 
-    const mockMovies: Movie[] = [
-        { title: "Inception", year: "2010", duration: "148", rating: 5, genre: "Science-Fiction", image: "inception.jpg" },
-        { title: "Interstellar", year: "2014", duration: "169", rating: 5, genre: "Science-Fiction", image: "interstellar.jpg" },
-        { title: "The Dark Knight", year: "2008", duration: "152", rating: 5, genre: "Action", image: "dark_knight.jpg" },
-        { title: "Titanic", year: "1997", duration: "195", rating: 5, genre: "Romance", image: "titanic.jpg" },
-    ];
+  // Récupération des films depuis l'API users (URL définie dans API_URLS.movies.getAll)
+  useEffect(() => {
+    fetch(API_URLS.movies.getAll)
+      .then(response => response.json())
+      .then((data: Movie[]) => {
+        // On suppose que l'API renvoie un tableau d'objets comportant la propriété "name"
+        setMovies(data);
+      })
+      .catch(error => console.error('Erreur lors de la récupération des films :', error));
+  }, []);
 
-    const mockSessions: Session[] = [
-        { movie: mockMovies[0], room: "Salle 1", time: "14:00", totalSeats: 100, reservedSeats: 25 },
-        { movie: mockMovies[1], room: "Salle 3", time: "16:30", totalSeats: 80, reservedSeats: 50 },
-        { movie: mockMovies[2], room: "Salle 2", time: "18:00", totalSeats: 120, reservedSeats: 100 },
-        { movie: mockMovies[3], room: "Salle 5", time: "20:00", totalSeats: 90, reservedSeats: 60 },
-    ];
+  // Récupération des séances depuis l'API Django (URL définie dans API_URLS.sessions.getAll)
+  useEffect(() => {
+    fetch(API_URLS.sessions.getAll)
+      .then(response => response.json())
+      .then((data) => {
+        // Mapping : transformation des clés snake_case renvoyées par Django vers le type Session
+        const mappedSessions: Session[] = data.map((session: any) => ({
+          id: session.id,
+          film: session.film,
+          date: session.date,
+          start_time: session.start_time,
+          end_time: session.end_time,
+          totalSeats: session.total_seats,
+          availableSeats: session.available_seats,
+        }));
+        setSessions(mappedSessions);
+      })
+      .catch(error => console.error('Erreur lors de la récupération des séances :', error));
+  }, []);
 
-    // const handleSave = (session: Session): void => {
-    //     console.log('Séance sauvegardée :', session);
-    // }
+  const handleSave = (updatedSession: Session) => {
+    console.log('Séance sauvegardée :', updatedSession);
+    // Pour la mise à jour, nous vérifions si l'objet possède déjà un id
+    if (updatedSession.id) {
+      // Mise à jour (PUT) vers l'URL API_URLS.sessions.update en passant l'id
+      fetch(API_URLS.sessions.update(String(updatedSession.id)), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          film: updatedSession.film,
+          room: "N/A", // Le champ room est requis par le modèle, donc on fournit une valeur par défaut
+          date: updatedSession.date,
+          start_time: updatedSession.start_time,
+          end_time: updatedSession.end_time,
+          total_seats: updatedSession.totalSeats,
+          available_seats: updatedSession.availableSeats
+        })
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Erreur lors de la mise à jour de la séance");
+          }
+          return response.json();
+        })
+        .then(data => console.log("Séance mise à jour :", data))
+        .catch(error => console.error("Erreur :", error));
+    } else {
+      // Création (POST) vers API_URLS.sessions.create si la séance n'existe pas encore
+      fetch(API_URLS.sessions.create, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          film: updatedSession.film,
+          room: "N/A", // Valeur par défaut pour room
+          date: updatedSession.date,
+          start_time: updatedSession.start_time,
+          end_time: updatedSession.end_time,
+          total_seats: updatedSession.totalSeats,
+          available_seats: updatedSession.availableSeats
+        })
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Erreur lors de la création de la séance");
+          }
+          return response.json();
+        })
+        .then(data => console.log("Séance créée :", data))
+        .catch(error => console.error("Erreur :", error));
+    }
+  };
 
-    return (
-        <div className="mx-auto min-h-screen py-8 px-4 max-w-6xl">
-            <h1 className="text-3xl font-bold mb-4">Gestion des séances</h1>
-            <div className="flex flex-wrap gap-2">
-                {mockSessions.map(session => (
-                    <ManageSessionCard session={session} movies={mockMovies}
-                                       // onSave={handleSave}
-                    />
-                ))}
-            </div>
-        </div>
-    );
+  return (
+    <div className="mx-auto min-h-screen py-8 px-4 max-w-6xl">
+      <h1 className="text-3xl font-bold mb-4">Gestion des séances</h1>
+      <div className="flex flex-wrap gap-2">
+        {sessions.map((session, index) => (
+          <ManageSessionCard key={index} session={session} movies={movies} onSave={handleSave} />
+        ))}
+      </div>
+    </div>
+  );
 }
-export default ManageSession;
 
+export default ManageSession;
