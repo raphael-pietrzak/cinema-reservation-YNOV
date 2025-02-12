@@ -61,7 +61,7 @@ function MoviesList() {
             <MovieCard 
               key={movie._id || movie.id}
               movie={movie}
-              onClick={() => handleMovieClick(movie.id)}
+              onClick={() => handleMovieClick(movie)}
             />
           ))}
         </div>
