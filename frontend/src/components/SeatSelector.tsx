@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Armchair as Chair, Euro } from 'lucide-react';
 import axios, { AxiosResponse } from 'axios';
 import { API_URLS } from '../config/api';
@@ -137,7 +137,7 @@ function SeatSelector({ sessionId }: SeatSelectorProps) {
                       w-8 h-8 rounded-t-lg flex items-center justify-center transition-colors
                       ${seat.isOccupied ? 'bg-gray-600 cursor-not-allowed' : ''}
                       ${seat.isSelected ? 'bg-green-500 hover:bg-green-600' : ''}
-                      ${!seat.isOccupied && !seat.isSelected ? 'bg-blue-500 hover:bg-blue-600' : ''}
+                      ${!seat.isOccupied && !seat.isSelected ? 'bg-blue-500 hover:bg-primary' : ''}
                     `}
                   >
                     <Chair size={16} />
