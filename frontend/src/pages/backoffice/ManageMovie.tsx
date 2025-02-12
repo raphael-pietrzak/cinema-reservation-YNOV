@@ -7,15 +7,20 @@ import {ManageMovieCard} from "../../features/movies-list/components/ManageMovie
 import { movies } from '../../features/movies-list/data/movies.ts';
 import { Movie } from '../../features/movies-list/types/movie.ts';
 import { API_URLS } from '../../config/api';
+import { useAuth } from '../../context/AuthContext.tsx';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-axios.defaults.headers.common['token'] = "alo";
 axios.defaults.headers.put['Content-Type'] = "application/json";
 
 function ManageMovie() {
+    const { token } = useAuth();
+    const headers = {
+        Authorization: `Bearer ${token}`
+    };
+
     const handleSave = (movie: Movie) => {
-        axios.put(API_URLS.movies.update(movie._id), movie)
+        axios.put(API_URLS.movies.update(movie._id), movie, { headers })
             .then((res) => {
                 if (res.status == 200)
                     toast.success('Film sauvegardé avec succès!');
@@ -28,7 +33,7 @@ function ManageMovie() {
     };
 
     const handleDelete = (movie: Movie) => {
-        axios.delete(API_URLS.movies.delete(movie._id))
+        axios.delete(API_URLS.movies.delete(movie._id), { headers })
             .then((res) => {
                 if (res.status == 200) {
                     fetchMovies();
@@ -46,7 +51,7 @@ function ManageMovie() {
 
     const fetchMovies = async () => {
         try {
-            const response: AxiosResponse = await axios.get(API_URLS.movies.getAll);
+            const response: AxiosResponse = await axios.get(API_URLS.movies.getAll, { headers });
             const data: Movie[] = response.data;
             setMovies(data);
         } catch (error) {

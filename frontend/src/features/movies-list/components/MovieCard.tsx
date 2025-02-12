@@ -5,7 +5,7 @@ import { Movie } from '../types/movie';
 
 interface MovieCardProps {
   movie: Movie;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 export function MovieCard({ movie, onClick }: MovieCardProps) {

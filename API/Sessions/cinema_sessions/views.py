@@ -1,9 +1,6 @@
 # views.py
 import jwt
 import requests
-from django.db import transaction
-from django.db.models import F
-from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import CinemaSession, Reservation
@@ -18,22 +15,27 @@ class ReservationViewSet(viewsets.ModelViewSet):
     serializer_class = ReservationSerializer
 
     def create(self, request, *args, **kwargs):
-        # Vérification du token et extraction du user_id
         auth_header = request.headers.get('Authorization')
         if not auth_header:
             return Response({"error": "Le token est requis."}, status=status.HTTP_401_UNAUTHORIZED)
         try:
             token = auth_header.split(" ")[1]
-            response = requests.post(
-                'http://localhost:3000/auth/verify-token',
+            
+            # Requête vers le service de vérification du token
+            response = requests.get(
+                'http://localhost:3000/verify-token',
                 headers={'Authorization': f'Bearer {token}'}
             )
+            
             if response.status_code != 200:
                 return Response({"error": "Token invalide"}, status=status.HTTP_401_UNAUTHORIZED)
+                
             user_data = response.json()
             user_id = user_data.get('userId')
+            
             if not user_id:
                 return Response({"error": "UserId non trouvé"}, status=status.HTTP_401_UNAUTHORIZED)
+
         except Exception as e:
             return Response({"error": "Token invalide", "detail": str(e)}, status=status.HTTP_401_UNAUTHORIZED)
 
