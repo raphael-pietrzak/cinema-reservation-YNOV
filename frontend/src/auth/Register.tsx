@@ -9,10 +9,10 @@ const Register: React.FC = () => {
     email: '',
     password: '',
     username: '',
-  });
-  const [message, setMessage] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
+    role: 'user' // Ajout du rôle par défaut
+  })
+  const [message, setMessage] = useState('')
+  const navigate = useNavigate()
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,9 +25,17 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+<<<<<<< HEAD
+      const response = await axios.post(API_URLS.auth.register, formData)
+      setMessage('Inscription réussie !')
+      setTimeout(() => {
+        navigate('/login')
+      }, 1500)
+=======
       await axios.post(API_URLS.auth.register, formData);
       setMessage('Inscription réussie !');
       navigate('/login');
+>>>>>>> caf3bfe766a3cbfe206a69a1ffc428c18b623559
     } catch (error: any) {
       setMessage(error.response?.data?.error || "Erreur lors de l'inscription");
       console.error("Erreur lors de l'inscription:", error);

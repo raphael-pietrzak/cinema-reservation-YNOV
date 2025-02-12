@@ -26,10 +26,11 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(API_URLS.auth.login, formData);
-      login(response.data.token);
-      setMessage('Connexion réussie !');
-      navigate('/');
+      const response = await axios.post(API_URLS.auth.login, formData)
+      login(response.data.token, response.data.user.role) // Mise à jour pour inclure le rôle
+      setMessage('Connexion réussie !')
+      // Rediriger vers le dashboard si admin, sinon vers la page d'accueil
+      navigate(response.data.user.role === 'admin' ? '/backoffice' : '/')
     } catch (error: any) {
       setMessage(error.response?.data?.error || 'Erreur lors de la connexion');
       console.error('Erreur lors de la connexion:', error);

@@ -9,8 +9,7 @@ import Dashboard from "../pages/backoffice/Dashboard";
 import SeatSelectorPage from '../pages/SeatSelectorPage';
 import MovieDetailsPage from '../pages/MovieDetailsPage';
 import AddMovie from "../pages/backoffice/AddMovie.tsx";
-import MovieDetails from '../pages/MovieDetails';
-import SeatSelector from "../components/SeatSelector.tsx";
+import ProtectedRoute from '../components/ProtectedRoute';
 
 export const routes: RouteObject[] = [
     {
@@ -21,8 +20,14 @@ export const routes: RouteObject[] = [
             { path: '/movies', element: <MoviesList /> },
             { path: '/login', element: <Login /> },
             { path: '/register', element: <Register /> },
-            { path: '/backoffice', element: <Dashboard /> },
-            { path: '/backoffice/add-movie', element: <AddMovie /> },
+            { 
+                path: '/backoffice', 
+                element: <ProtectedRoute adminOnly={true}><Dashboard /></ProtectedRoute> 
+            },
+            { 
+                path: '/backoffice/add-movie', 
+                element: <ProtectedRoute adminOnly={true}><AddMovie /></ProtectedRoute> 
+            },
             // Route pour les détails d'un film, avec filmId en paramètre
             { path: '/movie-detail/:filmId', element: <MovieDetailsPage /> },
             // Route pour la sélection de sièges, avec sessionId en paramètre
