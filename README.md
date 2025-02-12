@@ -37,6 +37,9 @@ cd API/Sessions || exit
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+python manage.py makemigrations cinema_sessions
+python manage.py migrate
+python manage.py loaddata cinemasessions_fixtures.json
 python3 manage.py runserver &
 cd ../..
 
