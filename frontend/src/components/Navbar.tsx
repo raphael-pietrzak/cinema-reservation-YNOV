@@ -25,7 +25,7 @@ const Navbar = () => {
           <Link to="/" className="text-2xl font-bold tracking-wide">
             🎬 MovieApp
           </Link>
-          
+
           {/* Thème */}
           <button onClick={toggleTheme} className="focus:outline-none">
             {theme === "light" ? <Moon size={24} /> : <Sun size={24} />}
@@ -55,6 +55,10 @@ const Navbar = () => {
 
 
             <Link to="/login" className="hover:text-gray-200 transition">Connexion</Link>
+
+            <Link to="/login" className="bg-white text-blue-500 px-4 py-2 rounded shadow hover:bg-gray-100 transition">
+              Connexion
+            </Link>
 
           </div>
         </div>
