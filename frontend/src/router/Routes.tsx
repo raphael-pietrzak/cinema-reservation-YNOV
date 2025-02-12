@@ -11,7 +11,7 @@ import ManageSession from "../pages/backoffice/ManageSession";
 import ManageUser from "../pages/backoffice/ManageUser";
 import SeatSelectorPage from '../pages/SeatSelectorPage';
 import MovieDetailsPage from '../pages/MovieDetailsPage';
-import MovieDetails from '../pages/MovieDetails';
+import AddMovie from "../pages/backoffice/AddMovie.tsx";
 
 export const routes: RouteObject[] = [
     {

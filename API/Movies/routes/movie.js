@@ -8,16 +8,14 @@ function get_acl(token, callback) {
     let body = {
         token: token
     }
-    callback("admin");
     
-    /*
-    fetch(UserURL, body)
+    fetch("localhost:3000/verify-token", body)
         .then((res) => res.json())
         .then((json) => {
             if (json.role) callback(role)
             else return null
         })
-    */
+        .catch((err) => console.log(err))
 }
 
 // GET movie by Query
@@ -25,6 +23,7 @@ router.get('/', (req, res, next) => {
     model.find(req.query).exec().then((movies) => {
         res.status(200).send(movies);
     })
+    .catch((err) => console.log(err))
 });
 
 // GET movie by ID
@@ -36,6 +35,7 @@ router.get('/:id', (req, res, next) => {
         }
         res.status(200).send(movie);
     })
+    .catch((err) => console.log(err))
 });
 
 // POST movie to create
@@ -49,6 +49,7 @@ router.post('/create', (req, res, next) => {
             }).catch((err) => {
                 res.status(400).send(err.message);
             })
+            .catch((err) => console.log(err))
         } else {
             res.status(403).send("Unauthorized");
         }
@@ -66,6 +67,7 @@ router.put('/:id/update', (req, res, next) => {
             }).catch((err) => {
                 res.status(400).send(err.message);
             })
+            .catch((err) => console.log(err))
         } else {
             res.status(403).send("Unauthorized");
         }
@@ -84,6 +86,7 @@ router.delete('/:id/delete', (req, res, next) => {
                 else
                     res.status(404).send("Not Found");
             })
+            .catch((err) => console.log(err))
         } else {
             res.status(403).send("Unauthorized");
         }
