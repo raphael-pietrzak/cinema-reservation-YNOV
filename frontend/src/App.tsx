@@ -7,7 +7,7 @@ function App() {
   return (
     <AuthProvider>
         <div
-            className="relative min-h-screen w-full bg-cover bg-center backdrop-blur-xl"
+            className="relative min-h-screen w-full bg-cover bg-center backdrop-saturate-50"
             style={{backgroundImage: `url(${backgroundImage})`}}
         >
             {/* Overlay avec un dégradé du noir transparent vers transparent */}

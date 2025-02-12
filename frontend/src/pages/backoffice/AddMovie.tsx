@@ -23,7 +23,9 @@ const AddMovie = () => {
                 else
                     toast.error('Erreur!');
             });
-        navigate("/backoffice");
+        setTimeout(() => {
+            navigate("/backoffice");
+        }, 2000);
     };
 
     return (
