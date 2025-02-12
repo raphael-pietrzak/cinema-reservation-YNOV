@@ -34,7 +34,7 @@ function MovieDetails() {
             className="w-full h-64 object-cover"
           />
           <div className="p-6">
-            <p className="text-gray-300 mb-4">{movie.description}</p>
+            <p className="text-gray-300 mb-4">{movie.actors}</p>
             <div className="flex gap-4">
               <span>{movie.year}</span>
               <span>{movie.genre}</span>

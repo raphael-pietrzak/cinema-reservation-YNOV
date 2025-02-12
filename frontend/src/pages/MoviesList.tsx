@@ -36,9 +36,9 @@ function MoviesList() {
     ? moviesList
     : moviesList.filter(movie => movie.genre === selectedGenre);
 
-  const handleMovieClick = (movieId: number) => {
-    console.log('Navigating to movie:', movieId); // Pour le débogage
-    navigate(`/movie/${movieId}`, { replace: false });
+  const handleMovieClick = (movie: Movie) => {
+    const id = movie._id || movie.id;
+    navigate(`/movie-detail/${id}`);
   };
 
   return (
@@ -61,7 +61,7 @@ function MoviesList() {
             <MovieCard 
               key={movie._id || movie.id}
               movie={movie}
-              onClick={() => handleMovieClick(movie.id)}
+              onClick={() => handleMovieClick(movie)}
             />
           ))}
         </div>
