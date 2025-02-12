@@ -114,7 +114,7 @@ const userController = {
                 if (err) {
                     return res.status(401).json({ valid: false, message: 'Token invalide' });
                 }
-                res.json({ valid: true, userId: decoded.userId });
+                res.json({ valid: true, userId: decoded.userId, role: decoded.role });
             });
         } catch (error) {
             res.status(500).json({ error: error.message });

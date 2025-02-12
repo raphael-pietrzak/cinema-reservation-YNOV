@@ -5,8 +5,8 @@ exports.seed = async function(knex) {
   await knex('users').insert([
     {
       username: 'admin',
-      email: 'admin@example.com',
-      password: await bcrypt.hash('password123', 10),
+      email: 'a@a',
+      password: await bcrypt.hash('admin', 10),
       role: 'admin'
     },
     {

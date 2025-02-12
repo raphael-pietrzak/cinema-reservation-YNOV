@@ -9,6 +9,7 @@ const Register: React.FC = () => {
     email: '',
     password: '',
     username: '',
+    role: 'user' // Ajout du rôle par défaut
   })
   const [message, setMessage] = useState('')
   const navigate = useNavigate()
@@ -20,9 +21,11 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      await axios.post(API_URLS.auth.register, formData)
+      const response = await axios.post(API_URLS.auth.register, formData)
       setMessage('Inscription réussie !')
-      navigate('/login')
+      setTimeout(() => {
+        navigate('/login')
+      }, 1500)
     } catch (error: any) {
       setMessage(error.response?.data?.error || 'Erreur lors de l\'inscription')
       console.error('Erreur lors de l\'inscription:', error)
